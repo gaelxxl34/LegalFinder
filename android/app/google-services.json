@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "250966612245",
+    "project_id": "legalfinder-774ab",
+    "storage_bucket": "legalfinder-774ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250966612245:android:1aebd9f9f0d9c6bb7e311c",
+        "android_client_info": {
+          "package_name": "com.example.legalfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250966612245-j74kspjho8bt2k33h68g7eav4l63rapb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdupxXpoPju8lqezxcmnVGqyqQoXcZ3xk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250966612245-j74kspjho8bt2k33h68g7eav4l63rapb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
