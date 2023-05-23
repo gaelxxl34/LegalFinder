@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:legalfinder/src/features/views/user_view/user_home_and_services/user_homescreen.dart';
+import 'package:legalfinder/src/constants/colors.dart';
+import 'package:legalfinder/src/features/views/user_view/user_home/user_homescreen.dart';
 import 'package:legalfinder/src/features/views/welcome_screen.dart';
 import 'package:legalfinder/src/repository/authentication_repo/auth_repo.dart';
 
@@ -54,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: primary,
       ),
       home: isLogin ?   UserHomePage() :  const WelcomePage(),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_login.dart';
 
+import '../../../../common_widgets/paassword_field.dart';
 import '../../../authentification/controllers/signup_controller.dart';
 import '../../../authentification/models/user_model.dart';
 
@@ -36,11 +38,9 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                      child: Icon(Icons.person, size: 65)
+                      child: Icon(CupertinoIcons.person_alt_circle_fill, size: 70)
                   ),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  const SizedBox(height: 24),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -56,6 +56,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           controller: controller.fullName,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
+                            suffixIcon: Icon(CupertinoIcons.textbox),
                             hintText: 'Fullname',
                           ),
                         ),
@@ -73,29 +74,12 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           controller: controller.email,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
+                            suffixIcon: Icon(CupertinoIcons.mail),
                             hintText: 'Email',
                           ),
                         ),
                         const SizedBox(height: 16),
-                        TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a password';
-                            }
-                            if (value.length < 6) {
-                              return 'Password must be at least 6 characters long';
-                            }
-                            // Add any additional password validation logic here, such as requiring specific characters or patterns
-
-                            return null; // Return null if the password is valid
-                          },
-                          controller: controller.password,
-                          decoration: InputDecoration(
-                            hintText: 'Password',
-                          ),
-                          obscureText: true,
-                          // controller: _passwordController,
-                        ),
+                        PasswordTextField(),
 
                         const SizedBox(
                           height: 24,

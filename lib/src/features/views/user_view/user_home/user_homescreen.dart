@@ -4,8 +4,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../../repository/authentication_repo/auth_repo.dart';
+import '../user_home_services/get_legal_assistant.dart';
 
 class UserHomePage extends StatelessWidget {
   @override
@@ -34,7 +37,7 @@ class UserHomePage extends StatelessWidget {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => Get.to(GetLegalHelpDashboard()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),

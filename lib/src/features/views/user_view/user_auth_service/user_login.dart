@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_signup.dart';
-import 'package:legalfinder/src/features/views/user_view/user_home_and_services/user_homescreen.dart';
 
+import '../../../../common_widgets/paassword_field.dart';
+import '../../../../common_widgets/reset_password.dart';
 import '../../../authentification/controllers/signup_controller.dart';
 
 class UserLoginScreen extends StatefulWidget {
@@ -16,8 +17,7 @@ class UserLoginScreen extends StatefulWidget {
 }
 
 class _UserLoginScreenState extends State<UserLoginScreen> {
-  // final _emailController = TextEditingController();
-  // final _passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   final controller = Get.put(SignUpController());
 
@@ -42,7 +42,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        SizedBox(child: Icon(Icons.person, size: 60)),
+                        SizedBox(child: Icon(CupertinoIcons.person_alt_circle_fill, size: 70)),
                         const SizedBox(height: 24),
                         TextFormField(
                           validator: (value) {
@@ -60,28 +60,21 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'Email',
+                            suffixIcon:   Icon(CupertinoIcons.mail)
                           ),
                         ),
                         const SizedBox(height: 16),
-                        TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter a password';
-                            }
-                            if (value.length < 4) {
-                              return 'Password must be at least 4 characters long';
-                            }
-                            // Add any additional password validation logic here, such as requiring specific characters or patterns
-
-                            return null; // Return null if the password is valid
-                          },
-                          controller: controller.password,
-                          decoration: InputDecoration(
-                            hintText: 'Password',
+                        PasswordTextField(),
+                        const SizedBox(height: 34),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              ForgetPasswordScreen.buildShowModalBottomSheet(context);
+                            },
+                            child: Text("Forget Password", style: TextStyle(color: Colors.blue),),
                           ),
-                          obscureText: true,
                         ),
-                        const SizedBox(height: 24),
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -113,7 +106,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                             TextSpan(
                               text: "Don't have an Account ",
                               style:
-                              TextStyle(fontSize: 15, color: Colors.black),
+                              TextStyle(fontSize: 16, color: Colors.black),
                               children: [
                                 TextSpan(
                                   text: "Sign Up".toUpperCase(),
