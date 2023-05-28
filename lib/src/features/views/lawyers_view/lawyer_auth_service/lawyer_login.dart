@@ -1,30 +1,32 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_signup.dart';
 
 import '../../../../common_widgets/paassword_field.dart';
 import '../../../../common_widgets/reset_password.dart';
 import '../../../authentification/controllers/signup_controller.dart';
+import 'lawyer_signup.dart';
 
-class UserLoginScreen extends StatefulWidget {
-  const UserLoginScreen({Key? key}) : super(key: key);
+class LawyerLogin extends StatefulWidget {
+  const LawyerLogin({Key? key}) : super(key: key);
 
   @override
-  State<UserLoginScreen> createState() => _UserLoginScreenState();
+  State<LawyerLogin> createState() => _LawyerLoginState();
 }
 
-class _UserLoginScreenState extends State<UserLoginScreen> {
-
+class _LawyerLoginState extends State<LawyerLogin> {
   final _formKey = GlobalKey<FormState>();
   final controller = Get.put(SignUpController());
 
 
-
   @override
   Widget build(BuildContext context) {
+    var mediaQuery = MediaQuery.of(context);
+    var height = mediaQuery.size.height;
+    var width = mediaQuery.size.width;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: ConstrainedBox(
@@ -42,7 +44,9 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        SizedBox(child: Icon(CupertinoIcons.person_alt_circle_fill, size: 70)),
+                        Container(
+                          child: Image(image: AssetImage("assets/lawyer.png"), width: width * 1, height: height * 0.3,),
+                        ),
                         const SizedBox(height: 24),
                         TextFormField(
                           validator: (value) {
@@ -59,8 +63,8 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                           controller: controller.email,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                            hintText: 'Email',
-                            suffixIcon:   Icon(CupertinoIcons.mail)
+                              hintText: 'Email',
+                              suffixIcon:   Icon(CupertinoIcons.mail)
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -87,7 +91,7 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                             ),
                             onPressed: (){
                               if (_formKey.currentState!.validate()) {
-                                SignUpController.instance.log(controller.email.text.trim(), controller.password.text.trim());
+                                SignUpController.instance.loginWithEmailPassword(controller.email.text.trim(), controller.password.text.trim());
                               }
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Processing Data')),
@@ -101,18 +105,12 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                         ),
                         const SizedBox(height: 24),
                         TextButton(
-                          onPressed: () => Get.to(UserSignUpScreen()),
+                          onPressed: () => Get.to(LawyerSignUp()),
                           child: Text.rich(
                             TextSpan(
-                              text: "Don't have an Account ",
+                              text: "Request For an Account ",
                               style:
-                              TextStyle(fontSize: 14, color: Colors.black),
-                              children: [
-                                TextSpan(
-                                  text: "Sign Up".toUpperCase(),
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ],
+                              TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -128,3 +126,5 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
     );
   }
 }
+
+

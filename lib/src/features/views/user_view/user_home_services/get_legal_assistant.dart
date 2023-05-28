@@ -43,30 +43,8 @@ class GetLegalHelpDashboard extends StatelessWidget {
                 // Navigate to catalog of family lawyers
               },
             ),
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Cyber Advocate',
-                  () {
-                // Navigate to catalog of corporate lawyers
-              },
-            ),
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Corporate Advocate',
-                  () {
-                // Navigate to catalog of civil lawyers
-              },
-            ),
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Intellectual Property Advocate',
-                  () {
-                // Navigate to catalog of intellectual property lawyers
-              },
-            ),
+
+
             const SizedBox(height: 16.0),
             _buildLawyerCategory(
               context,

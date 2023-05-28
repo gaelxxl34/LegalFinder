@@ -17,59 +17,6 @@ class EmailVerification extends StatefulWidget {
 }
 
 class _EmailVerificationState extends State<EmailVerification> {
-  // bool isEmailVerified = false;
-  // bool canResendEmail = false;
-  //
-  // Timer? timer;
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   // -- First create the user before verifying
-  //   isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-  //
-  //   if (!isEmailVerified) {
-  //     sendVerificationEMail();
-  //
-  //     timer = Timer.periodic(
-  //       Duration(seconds: 2),
-  //           (_) => checkEmailVerified(),
-  //     );
-  //   }
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   timer?.cancel();
-  //
-  //   super.dispose();
-  // }
-  //
-  // Future checkEmailVerified() async {
-  //   // reload after email is verified
-  //   await FirebaseAuth.instance.currentUser!.reload();
-  //
-  //   setState(() {
-  //     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-  //   });
-  //
-  //   if (isEmailVerified == true) {
-  //     Get.to(UserHomePage());
-  //   }
-  // }
-  //
-  // Future sendVerificationEMail() async {
-  //   try {
-  //     final user = FirebaseAuth.instance.currentUser!;
-  //     await user.sendEmailVerification();
-  //     setState(() => canResendEmail = false);
-  //     await Future.delayed(Duration(seconds: 5));
-  //     setState(() => canResendEmail = true);
-  //   } catch (e) {
-  //     Get.snackbar("Invalid Email", "Or not Recorded", colorText: Colors.red);
-  //   }
-  // }
 
   final controller = Get.put(MailVerficationController());
   final uSer = FirebaseAuth.instance.currentUser!;

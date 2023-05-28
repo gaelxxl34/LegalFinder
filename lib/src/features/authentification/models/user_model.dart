@@ -6,11 +6,13 @@ class UserModel {
   String uid;
   final String fullname;
   final String email;
+  final String role;
 
   UserModel({
     this.uid = '',
     required this.fullname,
     required this.email,
+    required this.role,
   });
 
   toJson() {
@@ -18,15 +20,17 @@ class UserModel {
       "uid" : uid,
       "Fullname": fullname,
       "Email": email,
+      "Role": role,
     };
   }
 
-  factory UserModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> document) {
-    final data = document.data()!;
+  factory UserModel.fromSnapshot(dynamic snapshot) {
+    final data = snapshot.data()!;
     return UserModel(
-        uid: document.id,
-        fullname: data['Fullname'],
-        email: data['Email'],
+      uid: snapshot.id,
+      fullname: data['Fullname'],
+      email: data['Email'],
+      role: data['Role'] ?? '',
     );
   }
 }

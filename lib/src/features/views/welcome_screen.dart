@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_login.dart';
 
+import 'lawyers_view/lawyer_auth_service/lawyer_login.dart';
+
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -21,10 +23,10 @@ class WelcomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(
-                  image: NetworkImage(
-                      "https://cdn-icons-png.flaticon.com/512/7658/7658742.png"),
+                  image: AssetImage(
+                      "assets/es.png"),
                   height: height * 0.5,
-                  width: width * 0.6,
+                  width: width * 0.75,
                 ),
                 Column(
                   children: [
@@ -62,7 +64,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: ()=> Get.to(LawyerLogin()),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(),
                           foregroundColor: Colors.white,

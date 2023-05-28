@@ -48,9 +48,11 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please your fullname';
+                              return 'Please Enter your Fullname';
                             }
-
+                            if (value.length < 6) {
+                              return 'Your Fullname must be at least 8 characters long';
+                            }
                             return null; // Return null if the email is valid
                           },
                           controller: controller.fullName,
@@ -80,7 +82,24 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         ),
                         const SizedBox(height: 16),
                         PasswordTextField(),
-
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please Enter your Fullname';
+                            }
+                            if (value.length < 3) {
+                              return 'Your Fullname must be at least 3 characters long';
+                            }
+                            return null; // Return null if the email is valid
+                          },
+                          controller: controller.role,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            suffixIcon: Icon(CupertinoIcons.textbox),
+                            hintText: 'role',
+                          ),
+                        ),
                         const SizedBox(
                           height: 24,
                         ),
@@ -99,6 +118,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                   final user = UserModel(
                                     fullname: controller.fullName.text.trim(),
                                     email: controller.email.text.trim(),
+                                    role: controller.role.text.trim(),
                                   );
 
                                   SignUpController.instance.registerUser(controller.email.text.trim(), controller.email.text.trim(), user);
