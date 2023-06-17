@@ -82,7 +82,7 @@ class AboutPage extends StatelessWidget {
                               child: Icon(CupertinoIcons.globe, color: Colors.white, size: 60,),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.black,
+                                color: Colors.green,
                               ),
                             ),
                             Text("Website")
@@ -122,7 +122,7 @@ class AboutPage extends StatelessWidget {
                               child: Icon(Icons.facebook, color: Colors.white, size: 60,),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.black,
+                                color: Colors.blue,
                               ),
                             ),
                             Text("Facebook")
@@ -170,7 +170,7 @@ class AboutPage extends StatelessWidget {
                               child: Icon(FontAwesomeIcons.instagram, color: Colors.white, size: 60,),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.black,
+                                color: Colors.red,
                               ),
                             ),
                             Text("Instagram")

@@ -1,15 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:legalfinder/src/features/authentification/controllers/signup_controller.dart';
 import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_login.dart';
 import 'package:legalfinder/src/features/views/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/authentification/models/user_model.dart';
 import '../../features/views/admin_view/admin_dashboard.dart';
+import '../../features/views/admin_view/admin_navbar.dart';
+import '../../features/views/judiciary_view/judiciary_home/judiciary_homescreen.dart';
+import '../../features/views/lawyers_view/lawyer_home/lawyer_homescreen.dart';
+import '../../features/views/police_view/police_home/police_homscreen.dart';
 import '../../features/views/user_view/user_auth_service/user_email_verification.dart';
 import '../../features/views/user_view/user_home/user_homescreen.dart';
 import '../exception_handler/signup_email_password_failure.dart';
@@ -35,63 +41,88 @@ class AuthentificationRepository extends GetxController {
   }
 
   Future<void> setIniationScreen(User? user) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? role = prefs.getString('Role');
-    if (role != null) {
-      if (role == 'admin') {
-        Get.offAll(() => AdminDashboard());
-      } else if (role == 'lawyer') {
-// Get.offAll(() => LawyerView());
-      } else if (role == 'police') {
-// Get.offAll(() => PoliceView());
-      } else if (role == 'judiciary') {
-// Get.offAll(() => JudiciaryView());
-      } else if (role == 'user') {
-        Get.offAll(() => UserHomePage());
-      } else {
-        user == null
-            ? Get.offAll(() => WelcomePage())
-            : user.emailVerified
-                ? Get.offAll(() => UserHomePage())
-                : Get.offAll(() => EmailVerification());
+    if (user != null) {
+      // Check if the user has the admin role.
+      QuerySnapshot adminSnapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('Email', isEqualTo: user.email)
+          .where('Role', isEqualTo: 'admin')
+          .get();
+
+      if (adminSnapshot.docs.isNotEmpty) {
+        // The current user has the admin role.
+        // Navigate to the admin dashboard.
+        Get.to(() => AdminNavbar());
+        return;
       }
-    } else {
-      if (user != null) {
-        DocumentSnapshot snapshot = await FirebaseFirestore.instance
-            .collection('Users')
-            .doc(user.email)
-            .get();
-        if (snapshot.exists && snapshot.data() != null) {
-          Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-          String? userRole = data['User'];
-          if (userRole != null) {
-            await prefs.setString('Role', userRole);
-            if (userRole == 'admin') {
-              Get.offAll(() => AdminDashboard());
-            } else if (userRole == 'lawyer') {
-// Get.offAll(() => LawyerView());
-            } else if (userRole == 'police') {
-// Get.offAll(() => PoliceView());
-            } else if (userRole == 'judiciary') {
-// Get.offAll(() => JudiciaryView());
-            } else if (userRole == 'user') {
-              Get.offAll(() => UserHomePage());
-            }
-          } else {
-            user.emailVerified
-                ? Get.offAll(() => UserHomePage())
-                : Get.offAll(() => EmailVerification());
-          }
-        } else {
-          user.emailVerified
-              ? Get.offAll(() => UserHomePage())
-              : Get.offAll(() => EmailVerification());
+
+      // The current session is not for an admin user.
+      // Check the user's role and navigate to the corresponding screen.
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('Email', isEqualTo: user.email)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        DocumentSnapshot userSnapshot = snapshot.docs[0];
+        String userRole = userSnapshot['Role'];
+
+        switch (userRole) {
+          case 'user':
+            Get.to(() => UserHomePage());
+            break;
+          case 'lawyer':
+            Get.to(() => LawyerHomePage());
+            break;
+          case 'police':
+            Get.to(() => PoliceHomePage());
+            break;
+          case 'judiciary':
+            Get.to(() => JudiciaryHomePage());
+            break;
+          default:
+            print("There is an error, go to welcome screen");
+            Get.to(() => WelcomePage());
+            break;
         }
       } else {
-        Get.offAll(() => WelcomePage());
+        print("User is null");
+        Get.to(() => WelcomePage());
+        // Handle the case when the user is null
       }
+    } else {
+      print("User is null");
+      Get.to(() => WelcomePage());
+      // Handle the case when the user is null
     }
   }
+
+
+  Future<bool> isAccountCreatedByAdmin(User? user) async {
+    // Get the user's email from Firestore.
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Users')
+        .where('Email', isEqualTo: user!.email)
+        .get();
+
+    // Check if the user has a document in Firestore.
+    if (snapshot.docs.isNotEmpty) {
+      // Get the user's document from Firestore.
+      DocumentSnapshot userSnapshot = snapshot.docs[0];
+
+      // Get the user's email from Firestore.
+      String email = userSnapshot['Email'];
+
+      // Return true if the user was created by an admin user.
+      return email == user!.email;
+    } else {
+      // Return false if the user was not created by an admin user.
+      return false;
+    }
+  }
+
+
+
+
 
 
   Future<void> createUserWithEmailAndPassword(
@@ -115,43 +146,76 @@ class AuthentificationRepository extends GetxController {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> createUserWithEmailAndPassword_For_Lawyer(
+      String email, String password, Admin_Lawyer_Model user) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      // Create a secondary Firebase app
+      FirebaseApp app = await Firebase.initializeApp(
+          name: 'Secondary', options: Firebase.app().options);
 
-      Get.snackbar("Logging", "Successfully", colorText: Colors.green);
-      // Perform any additional actions after successful account creation
-    } on FirebaseAuthException catch (e) {
-      print(email + " " + password);
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+      // Use the secondary app to create the user
+      UserCredential userCredential = await FirebaseAuth.instanceFor(app: app)
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      // Create the user in your UserRepo
+      await UserRepo.createLawyer(user);
+
+      // Redirect the user back to the admin dashboard
+      Get.to(() => AdminNavbar());
+
+      // Delete the secondary app
+      await app.delete();
+    }on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        Get.snackbar("Error", "Email already in use",
+            colorText: Colors.red, backgroundColor: Colors.black);
       } else {
-        print('Error creating account 1: ${e.message}');
-        Get.rawSnackbar(
-          messageText: const Text(
-            'Wrong Email or password',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
-          ),
-          isDismissible: false,
-          duration: const Duration(seconds: 2),
-          backgroundColor: Colors.red[400]!,
-          margin: EdgeInsets.zero,
-          snackStyle: SnackStyle.GROUNDED,
-        );
+        final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
+        print('FIREBASE AUTH EXCEPTION -${ex.message}');
+        throw ex;
       }
-    } catch (e) {
-      print('Error creating account 2: $e');
+    } catch (_) {
+      final ex = SignUpWithEmailAndPasswordFailure();
+      print('EXCEPTION -${ex.message}');
+      throw ex;
     }
   }
+
+  Future<void> createUserWithEmailAndPassword_For_Others(
+      String email, String password, OthersModel user) async {
+    try {
+      // Create a secondary Firebase app
+      FirebaseApp app = await Firebase.initializeApp(
+          name: 'Secondary', options: Firebase.app().options);
+
+      // Use the secondary app to create the user
+      UserCredential userCredential = await FirebaseAuth.instanceFor(app: app)
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await UserRepo.createOthers(user);
+
+      // Redirect the user back to the admin dashboard
+      Get.to(() => AdminNavbar());
+
+      // Delete the secondary app
+      await app.delete();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        Get.snackbar("Error", "Email already in use",
+            colorText: Colors.red);
+      } else {
+        final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
+        print('FIREBASE AUTH EXCEPTION -${ex.message}');
+        throw ex;
+      }
+    } catch (_) {
+      final ex = SignUpWithEmailAndPasswordFailure();
+      print('EXCEPTION -${ex.message}');
+      throw ex;
+    }
+  }
+
+
 
   // Email Verification
 

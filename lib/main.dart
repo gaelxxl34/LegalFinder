@@ -9,6 +9,10 @@ import 'package:legalfinder/src/constants/colors.dart';
 import 'package:legalfinder/src/features/authentification/controllers/signup_controller.dart';
 import 'package:legalfinder/src/features/authentification/models/user_model.dart';
 import 'package:legalfinder/src/features/views/admin_view/admin_dashboard.dart';
+import 'package:legalfinder/src/features/views/admin_view/admin_navbar.dart';
+import 'package:legalfinder/src/features/views/judiciary_view/judiciary_home/judiciary_homescreen.dart';
+import 'package:legalfinder/src/features/views/lawyers_view/lawyer_home/lawyer_homescreen.dart';
+import 'package:legalfinder/src/features/views/police_view/police_home/police_homscreen.dart';
 import 'package:legalfinder/src/features/views/user_view/user_home/user_homescreen.dart';
 import 'package:legalfinder/src/features/views/welcome_screen.dart';
 import 'package:legalfinder/src/repository/authentication_repo/auth_repo.dart';
@@ -50,13 +54,13 @@ class MyApp extends StatelessWidget {
                     case 'user':
                       return UserHomePage();
                     case 'admin':
-                      return AdminDashboard();
+                      return AdminNavbar();
                     case 'lawyer':
-                    // return LawyerController();
+                    return LawyerHomePage();
                     case 'police':
-                    // return PoliceController();
+                    return PoliceHomePage();
                     case 'judiciary':
-                    // return JudiciaryController();
+                    return JudiciaryHomePage();
                     default:
                       print("there is an error we go to welcome screnn //////////////////////////99999999999999");
                       return WelcomePage();

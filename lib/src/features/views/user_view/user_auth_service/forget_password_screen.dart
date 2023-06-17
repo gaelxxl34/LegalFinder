@@ -51,29 +51,43 @@ class _ForgetPasswordMailScreenState extends State<ForgetPasswordMailScreen> {
               SizedBox(height: 25 - 10),
               Form(
                 key: _formKey,
-                child: TextFormField(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an email address';
-                    }
-                    if (!RegExp(
-                        r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                        .hasMatch(value)) {
-                      return 'Please enter a valid email address';
-                    }
-                    return null; // Return null if the email is valid
-                  },
-                  controller: controller.email,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
+                child: Container(
+                  height: 45,
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email address';
+                      }
+                      if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null; // Return null if the email is valid
+                    },
+                    controller: controller.email,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
                       hintText: 'Email',
-                      suffixIcon:   Icon(CupertinoIcons.mail)
+                      suffixIcon: Icon(CupertinoIcons.mail, color: Colors.black),
+                      hintStyle: TextStyle(color: Colors.black),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.black),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.blue),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 25 - 10,),
               ElevatedButton.icon(
+
                   style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                       backgroundColor: Colors.black87,
                       minimumSize: Size.fromHeight(50)
                   ),
@@ -81,6 +95,9 @@ class _ForgetPasswordMailScreenState extends State<ForgetPasswordMailScreen> {
                   icon: Icon(CupertinoIcons.share_up, size: 25, color: Colors.lightBlue),
                   onPressed: (){
                     if (_formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Processing Data'), backgroundColor: Colors.black),
+                      );
                       SignUpController.instance.resetPassword(controller.email.text.trim());
                     }
                   }

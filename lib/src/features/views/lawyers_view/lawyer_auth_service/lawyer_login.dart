@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../../../common_widgets/login_page.dart';
 import '../../../../common_widgets/paassword_field.dart';
 import '../../../../common_widgets/reset_password.dart';
 import '../../../authentification/controllers/signup_controller.dart';
@@ -47,63 +48,7 @@ class _LawyerLoginState extends State<LawyerLogin> {
                         Container(
                           child: Image(image: AssetImage("assets/lawyer.png"), width: width * 1, height: height * 0.3,),
                         ),
-                        const SizedBox(height: 24),
-                        TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter an email address';
-                            }
-                            if (!RegExp(
-                                r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                                .hasMatch(value)) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null; // Return null if the email is valid
-                          },
-                          controller: controller.email,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                              hintText: 'Email',
-                              suffixIcon:   Icon(CupertinoIcons.mail)
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        PasswordTextField(),
-                        const SizedBox(height: 34),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {
-                              ForgetPasswordScreen.buildShowModalBottomSheet(context);
-                            },
-                            child: Text("Forget Password", style: TextStyle(color: Colors.blue),),
-                          ),
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(),
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.black,
-                              side: BorderSide(color: Colors.black),
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                            ),
-                            onPressed: (){
-                              if (_formKey.currentState!.validate()) {
-                                SignUpController.instance.loginWithEmailPassword(controller.email.text.trim(), controller.password.text.trim());
-                              }
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Processing Data')),
-                              );
-
-                            },
-                            child: Text(
-                              "Login".toUpperCase(),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 24),
+                        LoginWidget(),
                         TextButton(
                           onPressed: () => Get.to(LawyerSignUp()),
                           child: Text.rich(

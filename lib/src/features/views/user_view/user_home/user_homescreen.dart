@@ -106,32 +106,7 @@ class _UserHomePageState extends State<UserHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/bGround.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: ElevatedButton(
-                onPressed: () => Get.to(GetLegalHelpDashboard()),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black.withOpacity(0.5),
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                ),
-                child: Text(
-                  'Get Legal Assistance',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 7),
+
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -158,6 +133,33 @@ class _UserHomePageState extends State<UserHomePage> {
               ),
             ),
           ),
+          SizedBox(height: 7),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/bGround.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: ElevatedButton(
+                onPressed: () => Get.to(GetLegalHelpDashboard()),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black.withOpacity(0.5),
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                ),
+                child: Text(
+                  'Get Legal Assistance',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           SizedBox(height: 7),
           Expanded(
             child: Container(

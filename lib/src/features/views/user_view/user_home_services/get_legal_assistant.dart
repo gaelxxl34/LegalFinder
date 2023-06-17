@@ -2,12 +2,24 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class GetLegalHelpDashboard extends StatelessWidget {
+import '../../../authentification/controllers/user+details_controller.dart';
+import '../../../authentification/models/user_model.dart';
+
+class GetLegalHelpDashboard extends StatefulWidget {
   const GetLegalHelpDashboard({Key? key}) : super(key: key);
 
   @override
+  State<GetLegalHelpDashboard> createState() => _GetLegalHelpDashboardState();
+}
+
+class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
+  @override
   Widget build(BuildContext context) {
+    var controller = Get.put(UserDetailsController());
     return Scaffold(
       appBar: AppBar(
         title: Text('Our Advocate'),
@@ -21,77 +33,78 @@ class GetLegalHelpDashboard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Criminal Advocate',
-                  () {},
-            ),
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Civil Advocate',
-                  () {
-                // Navigate to catalog of environmental lawyers
+            FutureBuilder<List<Admin_Lawyer_Model>>(
+              future: controller.getLawyers(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    List<Admin_Lawyer_Model> userData = snapshot.data!;
+                    return SizedBox(
+                      height: 550,
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: userData.length,
+                        itemBuilder: (context, index) {
+                          Admin_Lawyer_Model user = userData[index];
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                        foregroundImage: NetworkImage(user.image),
+                                    ),
+                                    title: Text(user.fullname),
+                                    subtitle: Text("Expertise: ${user.field}"),
+                                    trailing: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red
+                                      ),
+                                      onPressed: (){
+                                        launch('tel:' + user.phone);
+                                      },
+                                      child: Text("Call"),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    print('Error: ${snapshot.error}');
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  } else {
+                    return Center(
+                      child: Text('No data available'),
+                    );
+                  }
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
               },
-            ),
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Family Advocate',
-                  () {
-                // Navigate to catalog of family lawyers
-              },
-            ),
-
-
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Tax Advocate',
-                  () {
-                // Navigate to catalog of tax lawyers
-              },
-            ),
-            const SizedBox(height: 16.0),
-            _buildLawyerCategory(
-              context,
-              'Estate Planning Advocate',
-                  () {
-                // Navigate to catalog of estate planning lawyers
-              },
-            ),
-
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLawyerCategory(
-      BuildContext context, String title, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 100.0,
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: Theme.of(context).textTheme.headline6,
-            textAlign: TextAlign.center,
-          ),
+            )
+          ]
         ),
       ),
     );

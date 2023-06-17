@@ -85,6 +85,10 @@ class UserInformation extends StatelessWidget {
                                     subtitle: Text(userData.email),
                                   ),
                                   ListTile(
+                                    title: Text("Account: " , style: TextStyle(fontSize: 18)),
+                                    subtitle: Text(userData.role),
+                                  ),
+                                  ListTile(
                                     title: Text("Uid: " , style: TextStyle(fontSize: 18)),
                                     subtitle: Text(userData.uid),
                                   ),

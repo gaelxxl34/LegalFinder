@@ -45,61 +45,74 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please Enter your Fullname';
-                            }
-                            if (value.length < 6) {
-                              return 'Your Fullname must be at least 8 characters long';
-                            }
-                            return null; // Return null if the email is valid
-                          },
-                          controller: controller.fullName,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            suffixIcon: Icon(CupertinoIcons.textbox),
-                            hintText: 'Fullname',
+                        Container(
+                          height: 45,
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please Enter your Fullname';
+                              }
+                              if (value.length < 6) {
+                                return 'Your Fullname must be at least 8 characters long';
+                              }
+                              return null; // Return null if the email is valid
+                            },
+                            controller: controller.fullName,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              hintText: 'Full Name',
+                              suffixIcon: Icon(CupertinoIcons.textbox, color: Colors.black),
+                              hintStyle: TextStyle(color: Colors.black),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1, color: Colors.black),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1, color: Colors.blue),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter an email address';
-                            }
-                            if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null; // Return null if the email is valid
-                          },
-                          controller: controller.email,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            suffixIcon: Icon(CupertinoIcons.mail),
-                            hintText: 'Email',
+                        const SizedBox(height: 10),
+                        Container(
+                          child: TextFormField(
+
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter an email address';
+                              }
+                              if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
+                                return 'Please enter a valid email address';
+                              }
+                              return null; // Return null if the email is valid
+                            },
+                            controller: controller.email,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            textInputAction: TextInputAction.newline,                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              suffixIcon: Icon(CupertinoIcons.mail, color: Colors.black),
+                              hintStyle: TextStyle(color: Colors.black),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1, color: Colors.black),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(width: 1, color: Colors.blue),
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
+                            ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 10),
                         PasswordTextField(),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please Enter your Fullname';
-                            }
-                            if (value.length < 3) {
-                              return 'Your Fullname must be at least 3 characters long';
-                            }
-                            return null; // Return null if the email is valid
-                          },
-                          controller: controller.role,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
-                            suffixIcon: Icon(CupertinoIcons.textbox),
-                            hintText: 'role',
-                          ),
-                        ),
                         const SizedBox(
                           height: 24,
                         ),
@@ -107,7 +120,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                             width: double.infinity,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                   foregroundColor: Colors.white,
                                   backgroundColor: Colors.black,
                                   side: BorderSide(color: Colors.black),
@@ -118,14 +131,13 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                   final user = UserModel(
                                     fullname: controller.fullName.text.trim(),
                                     email: controller.email.text.trim(),
-                                    role: controller.role.text.trim(),
                                   );
-
-                                  SignUpController.instance.registerUser(controller.email.text.trim(), controller.email.text.trim(), user);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Processing Data'), backgroundColor: Colors.black,),
+                                  );
+                                  SignUpController.instance.registerUser(controller.email.text.trim(), controller.password.text.trim(), user);
                                 }
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Processing Data')),
-                                );
+                               
 
                               },
                               child: Text(

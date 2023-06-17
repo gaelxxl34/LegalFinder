@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:legalfinder/src/features/views/police_view/police_auth_service/police_login.dart';
 import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_login.dart';
 
+import 'judiciary_view/judiciary_auth_service/judiciary_login.dart';
 import 'lawyers_view/lawyer_auth_service/lawyer_login.dart';
 
 
@@ -84,7 +86,7 @@ class WelcomePage extends StatelessWidget {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: (){},
+                        onPressed: ()=> Get.to(PoliceLogin()),
                         style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(),
                           foregroundColor: Colors.white,
@@ -102,7 +104,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: (){},
+                        onPressed: ()=> Get.to(JudiciaryLogin()),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(),
                           foregroundColor: Colors.white,
