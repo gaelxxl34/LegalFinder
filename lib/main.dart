@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:legalfinder/src/constants/colors.dart';
+import 'package:legalfinder/src/features/authentification/controllers/network_controller.dart';
 import 'package:legalfinder/src/features/authentification/controllers/signup_controller.dart';
 import 'package:legalfinder/src/features/authentification/models/user_model.dart';
 import 'package:legalfinder/src/features/views/admin_view/admin_dashboard.dart';
@@ -34,6 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: primary,
       ),
@@ -76,6 +79,7 @@ class MyApp extends StatelessWidget {
             }
           },
         ),
+        bottomSheet: NetworkController(),
       ),
     );
 
@@ -101,6 +105,7 @@ Future<String?> getUserRole() async {
   DocumentSnapshot userSnapshot = snapshot.docs[0];
   return userSnapshot['Role'];
 }
+
 
 
 

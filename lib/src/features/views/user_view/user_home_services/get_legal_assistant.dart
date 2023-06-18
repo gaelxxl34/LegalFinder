@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/user_model.dart';
 
@@ -17,9 +18,33 @@ class GetLegalHelpDashboard extends StatefulWidget {
 }
 
 class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
+
+  @override
+  void initState() {
+    super.initState();
+    NetworkListener networkController = Get.put(NetworkListener());
+    networkController.addListener(_onNetworkChange);
+  }
+
+  void _onNetworkChange() {
+    setState(() {
+      // Trigger a rebuild when the network status changes
+    });
+  }
+
+  @override
+  void dispose() {
+    NetworkListener networkController = Get.find();
+    networkController.removeListener(_onNetworkChange);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(UserDetailsController());
+    NetworkListener networkController = Get.find();
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Our Advocate'),
@@ -29,7 +54,8 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
+      body: networkController.hasInternet
+          ? SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -105,6 +131,16 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
               },
             )
           ]
+        ),
+      )
+          : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('No internet connection'),
+          ],
         ),
       ),
     );

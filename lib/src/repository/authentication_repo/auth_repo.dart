@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -96,29 +97,6 @@ class AuthentificationRepository extends GetxController {
     }
   }
 
-
-  Future<bool> isAccountCreatedByAdmin(User? user) async {
-    // Get the user's email from Firestore.
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('Users')
-        .where('Email', isEqualTo: user!.email)
-        .get();
-
-    // Check if the user has a document in Firestore.
-    if (snapshot.docs.isNotEmpty) {
-      // Get the user's document from Firestore.
-      DocumentSnapshot userSnapshot = snapshot.docs[0];
-
-      // Get the user's email from Firestore.
-      String email = userSnapshot['Email'];
-
-      // Return true if the user was created by an admin user.
-      return email == user!.email;
-    } else {
-      // Return false if the user was not created by an admin user.
-      return false;
-    }
-  }
 
 
 

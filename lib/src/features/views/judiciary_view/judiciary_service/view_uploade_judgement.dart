@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/user_model.dart';
 import 'edit_judiciary_upload.dart';
@@ -15,10 +16,31 @@ class ViewUploadedJudgement extends StatefulWidget {
 }
 
 class _ViewUploadedJudgementState extends State<ViewUploadedJudgement> {
+
+  @override
+  void initState() {
+    super.initState();
+    NetworkListener networkController = Get.put(NetworkListener());
+    networkController.addListener(_onNetworkChange);
+  }
+
+  void _onNetworkChange() {
+    setState(() {
+      // Trigger a rebuild when the network status changes
+    });
+  }
+
+  @override
+  void dispose() {
+    NetworkListener networkController = Get.find();
+    networkController.removeListener(_onNetworkChange);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     void refreshPage()=> setState(() {});
-
+    NetworkListener networkController = Get.find();
     var controller = Get.put(UserDetailsController());
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +48,8 @@ class _ViewUploadedJudgementState extends State<ViewUploadedJudgement> {
         title: Text("View Document"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: networkController.hasInternet
+          ? SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
@@ -119,6 +142,15 @@ class _ViewUploadedJudgementState extends State<ViewUploadedJudgement> {
               )
             ],
           ),
+        ),
+      ) : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('No internet connection'),
+          ],
         ),
       ),
     );

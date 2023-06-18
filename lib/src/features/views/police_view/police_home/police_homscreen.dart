@@ -112,7 +112,7 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: ()=> Get.to(WantedCriminal()),
+                onPressed: ()=> Get.to(()=>WantedCriminal()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),
@@ -139,7 +139,7 @@ class _PoliceHomePageState extends State<PoliceHomePage> {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: ()=> Get.to(PoliceUploadedInfo()),
+                onPressed: ()=> Get.to(()=>PoliceUploadedInfo()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),

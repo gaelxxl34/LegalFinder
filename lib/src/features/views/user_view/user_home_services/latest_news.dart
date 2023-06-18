@@ -1,8 +1,11 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import '';
 import 'package:carousel_slider/carousel_slider.dart';
 import '../../../authentification/controllers/fetch_data_controller.dart';
+import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/other_models.dart';
 import '../../../authentification/models/user_model.dart';
@@ -15,16 +18,40 @@ class News extends StatefulWidget {
 }
 
 class _NewsState extends State<News> {
+  var controller = Get.put(UserDetailsController());
+  var controlle = Get.put(FetchDataController());
+
+  @override
+  void initState() {
+    super.initState();
+    NetworkListener networkController = Get.put(NetworkListener());
+    networkController.addListener(_onNetworkChange);
+  }
+
+  void _onNetworkChange() {
+    setState(() {
+      // Trigger a rebuild when the network status changes
+    });
+  }
+
+  @override
+  void dispose() {
+    NetworkListener networkController = Get.find();
+    networkController.removeListener(_onNetworkChange);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(UserDetailsController());
-    var controlle = Get.put(FetchDataController());
+    NetworkListener networkController = Get.find();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("News"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: networkController.hasInternet
+          ? SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Column(
@@ -59,7 +86,6 @@ class _NewsState extends State<News> {
                                     child: Image(
                                       image: NetworkImage(user.imageUrl),
                                       fit: BoxFit.cover,
-
                                     ),
                                   ),
                                 ],
@@ -81,7 +107,6 @@ class _NewsState extends State<News> {
                   }
                 },
               ),
-
 
               Text("Wanted", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
               FutureBuilder<List<Wanted_Criminals_Model>>(
@@ -226,10 +251,22 @@ class _NewsState extends State<News> {
                   }
                 },
               )
+
             ],
           ),
+        ),
+      )
+          : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('No internet connection'),
+          ],
         ),
       ),
     );
   }
 }
+

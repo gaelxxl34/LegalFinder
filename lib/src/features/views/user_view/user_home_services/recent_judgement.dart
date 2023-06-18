@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/user_model.dart';
 
@@ -14,15 +15,39 @@ class RecentJudgement extends StatefulWidget {
 }
 
 class _RecentJudgementState extends State<RecentJudgement> {
+
+  @override
+  void initState() {
+    super.initState();
+    NetworkListener networkController = Get.put(NetworkListener());
+    networkController.addListener(_onNetworkChange);
+  }
+
+  void _onNetworkChange() {
+    setState(() {
+      // Trigger a rebuild when the network status changes
+    });
+  }
+
+  @override
+  void dispose() {
+    NetworkListener networkController = Get.find();
+    networkController.removeListener(_onNetworkChange);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(UserDetailsController());
+    NetworkListener networkController = Get.find();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Recent Judgement"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: networkController.hasInternet
+          ? SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10),
 
@@ -104,6 +129,15 @@ class _RecentJudgementState extends State<RecentJudgement> {
               )
             ],
           ),
+        ),
+      )    : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('No internet connection'),
+          ],
         ),
       ),
     );

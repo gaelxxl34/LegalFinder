@@ -116,7 +116,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: () => Get.to(News()),
+                onPressed: () => Get.to(()=>News()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),
@@ -143,7 +143,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: () => Get.to(GetLegalHelpDashboard()),
+                onPressed: () => Get.to(()=>GetLegalHelpDashboard()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),

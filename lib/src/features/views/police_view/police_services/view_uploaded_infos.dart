@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:legalfinder/src/features/views/police_view/police_services/police_edit_data.dart';
 
+import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/user_model.dart';
 
@@ -15,18 +16,39 @@ class PoliceUploadedInfo extends StatefulWidget {
 
 class _PoliceUploadedInfoState extends State<PoliceUploadedInfo> {
 
+  @override
+  void initState() {
+    super.initState();
+    NetworkListener networkController = Get.put(NetworkListener());
+    networkController.addListener(_onNetworkChange);
+  }
+
+  void _onNetworkChange() {
+    setState(() {
+      // Trigger a rebuild when the network status changes
+    });
+  }
+
+  @override
+  void dispose() {
+    NetworkListener networkController = Get.find();
+    networkController.removeListener(_onNetworkChange);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     void refreshPage()=> setState(() {});
     var controller = Get.put(UserDetailsController());
+    NetworkListener networkController = Get.find();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text("Uploaded Infos"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: networkController.hasInternet
+          ? SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
@@ -116,6 +138,15 @@ class _PoliceUploadedInfoState extends State<PoliceUploadedInfo> {
 
             ],
           ),
+        ),
+      ) : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('No internet connection'),
+          ],
         ),
       ),
     );

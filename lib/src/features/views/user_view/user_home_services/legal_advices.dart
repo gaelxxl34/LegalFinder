@@ -4,17 +4,42 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../../authentification/controllers/fetch_data_controller.dart';
+import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/models/other_models.dart';
 import 'get_legal_assistant.dart';
 
-class LegalAdvices extends StatelessWidget {
+class LegalAdvices extends StatefulWidget {
    LegalAdvices({Key? key}) : super(key: key);
 
+  @override
+  State<LegalAdvices> createState() => _LegalAdvicesState();
+}
 
+class _LegalAdvicesState extends State<LegalAdvices> {
+  @override
+  void initState() {
+    super.initState();
+    NetworkListener networkController = Get.put(NetworkListener());
+    networkController.addListener(_onNetworkChange);
+  }
+
+  void _onNetworkChange() {
+    setState(() {
+      // Trigger a rebuild when the network status changes
+    });
+  }
+
+  @override
+  void dispose() {
+    NetworkListener networkController = Get.find();
+    networkController.removeListener(_onNetworkChange);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(FetchDataController());
+    NetworkListener networkController = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,7 +50,8 @@ class LegalAdvices extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: FutureBuilder<List<LegalCase_Model>>(
+      body: networkController.hasInternet
+          ? FutureBuilder<List<LegalCase_Model>>(
         future: controller.getLegalAdvice(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -107,6 +133,16 @@ class LegalAdvices extends StatelessWidget {
           }
         },
       )
+          : Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('No internet connection'),
+          ],
+        ),
+      ),
     );
   }
 }
