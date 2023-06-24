@@ -16,7 +16,7 @@ import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/user_model.dart';
 import '../user_home_services/get_legal_assistant.dart';
 import '../user_home_services/latest_news.dart';
-import '../user_home_services/recent_judgement.dart';
+import '../user_home_services/library.dart';
 import 'drawer_pages/user_profile.dart';
 
 class UserHomePage extends StatefulWidget {
@@ -170,7 +170,7 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: ()=> Get.to(LegalAdvices()),
+                onPressed: ()=> Get.to(()=>LegalAdvices()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),
@@ -197,13 +197,13 @@ class _UserHomePageState extends State<UserHomePage> {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: ()=> Get.to(RecentJudgement()),
+                onPressed: ()=> Get.to(()=>LawLibrary()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),
                 ),
                 child: Text(
-                  'Recent Judgement',
+                  'Law Library',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

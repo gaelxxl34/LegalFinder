@@ -48,7 +48,7 @@ class JudiciarySignUp extends StatelessWidget {
               onPressed: () {
                 _sendLicenseEmail(context);
               },
-              child: Text('Request for Judiciary Account'),
+              child: Text('Request for Librarian Account'),
             ),
           ],
         ),

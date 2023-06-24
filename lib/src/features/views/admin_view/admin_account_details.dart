@@ -50,7 +50,7 @@ class _AccountsDetailsState extends State<AccountsDetails> {
             const SizedBox(height: 16.0),
             _buildLawyerCategory(
               context,
-              'Admins',
+              'Librarian',
                   ()=> Get.to(()=> OurAdmin()),
             ),
 

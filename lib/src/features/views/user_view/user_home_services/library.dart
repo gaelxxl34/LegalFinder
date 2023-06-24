@@ -1,26 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../constants/searchbar.dart';
 import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/user_model.dart';
 
-class RecentJudgement extends StatefulWidget {
-  const RecentJudgement({Key? key}) : super(key: key);
+class LawLibrary extends StatefulWidget {
+  const LawLibrary({Key? key}) : super(key: key);
 
   @override
-  State<RecentJudgement> createState() => _RecentJudgementState();
+  State<LawLibrary> createState() => _LawLibraryState();
 }
 
-class _RecentJudgementState extends State<RecentJudgement> {
+class _LawLibraryState extends State<LawLibrary> {
+  var controller = Get.put(UserDetailsController());
 
+  late Future<List<Document_Model>> _documentsFuture;
+  List<Document_Model> _documents = [];
   @override
   void initState() {
     super.initState();
     NetworkListener networkController = Get.put(NetworkListener());
     networkController.addListener(_onNetworkChange);
+    _documentsFuture = controller.getDocuments();
   }
 
   void _onNetworkChange() {
@@ -36,15 +42,46 @@ class _RecentJudgementState extends State<RecentJudgement> {
     super.dispose();
   }
 
+
+  Future<List<Document_Model>> fetchDocuments() async {
+    // Implement the logic to fetch documents from Firebase
+    // and return the list of documents
+    // For example:
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Judiciary').get();
+    List<Document_Model> documents = querySnapshot.docs.map((doc) {
+      // Create Document_Model objects from Firestore document data
+      return Document_Model(
+        img: doc.get('Image'),
+        description: doc.get('Description'),
+        document: doc.get('Document'),
+      );
+    }).toList();
+
+    return documents;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(UserDetailsController());
     NetworkListener networkController = Get.find();
 
     return Scaffold(
+
+
       appBar: AppBar(
-        title: Text("Recent Judgement"),
+        title: Text("Law Library"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+              List<Document_Model> documents = await _documentsFuture;
+              showSearch(
+                context: context,
+                delegate: DocumentSearchDelegate(documents),
+              );
+            },
+          ),
+        ],
       ),
       body: networkController.hasInternet
           ? SingleChildScrollView(
@@ -100,7 +137,7 @@ class _RecentJudgementState extends State<RecentJudgement> {
                                           ),
                                         ),
                                         title: Text(user.description),
-                                        subtitle: Text("Recent"),
+                                        subtitle: Text("Click to open"),
                                       ),
                                     ),
                                   ),
@@ -136,10 +173,11 @@ class _RecentJudgementState extends State<RecentJudgement> {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 16),
-            Text('No internet connection'),
+            Text('check internet connection'),
           ],
         ),
       ),
     );
   }
 }
+

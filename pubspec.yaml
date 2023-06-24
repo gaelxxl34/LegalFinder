@@ -46,6 +46,10 @@ dependencies:
   file_picker: ^5.3.1
   carousel_slider: ^4.2.1
   connectivity: ^3.0.6
+  connectivity_plus: ^3.0.6
+  internet_connection_checker: ^1.0.0+1
+
+
 
 
 flutter_native_splash:

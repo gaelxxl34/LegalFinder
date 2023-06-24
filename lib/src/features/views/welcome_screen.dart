@@ -113,7 +113,7 @@ class WelcomePage extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 15),
                         ),
                         child: Text(
-                          "Judiciary Account",
+                          "Librarian Account",
                         ),
                       ),
                     ),

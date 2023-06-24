@@ -20,7 +20,7 @@ class GetLegalHelpDashboard extends StatefulWidget {
 class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     NetworkListener networkController = Get.put(NetworkListener());
     networkController.addListener(_onNetworkChange);
@@ -96,14 +96,19 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
                                     ),
                                     title: Text(user.fullname),
                                     subtitle: Text("Expertise: ${user.field}"),
-                                    trailing: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red
-                                      ),
-                                      onPressed: (){
-                                        launch('tel:' + user.phone);
-                                      },
-                                      child: Text("Call"),
+                                    trailing: Column(
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red
+                                          ),
+                                          onPressed: (){
+                                            launch('tel:' + user.phone);
+                                          },
+                                          child: Text("Call"),
+                                        ),
+
+                                      ],
                                     ),
                                   ),
                                 ),

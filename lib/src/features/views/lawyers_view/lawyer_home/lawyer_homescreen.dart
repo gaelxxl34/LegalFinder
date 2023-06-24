@@ -11,7 +11,7 @@ import '../../user_view/user_home/drawer_pages/aboutpage.dart';
 import '../../user_view/user_home/drawer_pages/help.dart';
 import '../../user_view/user_home/drawer_pages/user_profile.dart';
 import '../../user_view/user_home_services/latest_news.dart';
-import '../../user_view/user_home_services/recent_judgement.dart';
+import '../../user_view/user_home_services/library.dart';
 import '../drawer_page/lawyer_profile.dart';
 
 class LawyerHomePage extends StatefulWidget {
@@ -142,7 +142,7 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                 ),
               ),
               child: ElevatedButton(
-                onPressed: ()=> Get.to(RecentJudgement()),
+                onPressed: ()=> Get.to(LawLibrary()),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black.withOpacity(0.5),
                   padding: EdgeInsets.symmetric(vertical: 20),

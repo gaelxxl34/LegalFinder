@@ -1,13 +1,10 @@
-import 'package:connectivity/connectivity.dart';
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
-
-import 'mailverification_controller.dart';
-
-
+import 'package:http/http.dart' as http;
 
 class NetworkListener extends ChangeNotifier {
-  final Connectivity _connectivity = Connectivity();
-  late bool _hasInternet;
+  bool _hasInternet = false;
 
   bool get hasInternet => _hasInternet;
 
@@ -19,10 +16,10 @@ class NetworkListener extends ChangeNotifier {
     _hasInternet = await _checkInternetConnection();
     notifyListeners();
 
-    _connectivity.onConnectivityChanged.listen((result) async {
+    const fiveSec = const Duration(seconds: 5);
+    Timer.periodic(fiveSec, (Timer t) async {
       bool previousStatus = _hasInternet;
       bool currentStatus = await _checkInternetConnection();
-
       if (previousStatus != currentStatus) {
         _hasInternet = currentStatus;
         notifyListeners();
@@ -31,7 +28,14 @@ class NetworkListener extends ChangeNotifier {
   }
 
   Future<bool> _checkInternetConnection() async {
-    var connectivityResult = await _connectivity.checkConnectivity();
-    return connectivityResult != ConnectivityResult.none;
+    try {
+      final response = await http.get(Uri.parse('https://www.google.com/'));
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (_) {
+      return false;
+    }
+    return false;
   }
 }

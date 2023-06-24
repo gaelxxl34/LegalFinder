@@ -1,27 +1,32 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
+import 'network_listener.dart';
+
 class NetworkController extends StatefulWidget {
   @override
   _NetworkControllerState createState() => _NetworkControllerState();
 }
 
 class _NetworkControllerState extends State<NetworkController> {
-  Stream<ConnectivityResult> connectivityStream = Connectivity().onConnectivityChanged;
+  late NetworkListener networkListener;
   bool isSnackBarVisible = false;
   int imageCacheBuster = 0;
 
   @override
   void initState() {
     super.initState();
-    connectivityStream.listen((ConnectivityResult result) {
-      if (result != ConnectivityResult.none) {
-        hideSnackBar();
-        refreshScreen(); // Automatically refresh the screen when the internet is restored
-      } else {
-        showNoInternetSnackBar();
-      }
-    });
+    networkListener = NetworkListener();
+    networkListener.addListener(_onNetworkChange);
+  }
+
+  void _onNetworkChange() {
+    if (networkListener.hasInternet) {
+      hideSnackBar();
+      refreshScreen(); // Automatically refresh the screen when the internet is restored
+    } else {
+      showNoInternetSnackBar();
+    }
   }
 
   void showNoInternetSnackBar() {
@@ -32,14 +37,15 @@ class _NetworkControllerState extends State<NetworkController> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(Icons.wifi_off, color: Colors.red),
+              Icon(Icons.wifi_off, color: Colors.red, size: 18,),
               SizedBox(width: 8),
-              Text('No internet connection', style: TextStyle(color: Colors.red)),
+              Text('No internet connection', style: TextStyle(color: Colors.red, fontSize: 15)),
               SizedBox(width: 8),
-              Icon(Icons.signal_cellular_off, color: Colors.red),
+              Icon(Icons.signal_cellular_off, color: Colors.red, size: 18,),
             ],
           ),
           duration: Duration(days: 365), // Set a long duration to keep the SnackBar visible
@@ -91,6 +97,12 @@ class _NetworkControllerState extends State<NetworkController> {
   String getImageUrl(String originalUrl) {
     // Append the cache buster value as a query parameter to the image URL
     return '$originalUrl?cacheBuster=$imageCacheBuster';
+  }
+
+  @override
+  void dispose() {
+    networkListener.removeListener(_onNetworkChange);
+    super.dispose();
   }
 
   @override

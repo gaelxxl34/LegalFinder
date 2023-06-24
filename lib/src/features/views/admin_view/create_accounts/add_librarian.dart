@@ -8,14 +8,14 @@ import '../../../../common_widgets/paassword_field.dart';
 import '../../../authentification/controllers/signup_controller.dart';
 import '../../../authentification/models/user_model.dart';
 
-class AddJudiciary extends StatefulWidget {
-  const AddJudiciary({Key? key}) : super(key: key);
+class AddLibrarian extends StatefulWidget {
+  const AddLibrarian({Key? key}) : super(key: key);
 
   @override
-  State<AddJudiciary> createState() => _AddJudiciaryState();
+  State<AddLibrarian> createState() => _AddLibrarianState();
 }
 
-class _AddJudiciaryState extends State<AddJudiciary> {
+class _AddLibrarianState extends State<AddLibrarian> {
   final _formKey = GlobalKey<FormState>();
   final controller = Get.put(SignUpController());
 

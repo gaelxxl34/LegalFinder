@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
 import '../../../repository/authentication_repo/auth_repo.dart';
 import '../../authentification/controllers/user+details_controller.dart';
 import '../../authentification/models/user_model.dart';
@@ -17,9 +17,11 @@ import 'add_data/add_legaladvice.dart';
 import 'add_quotes_and_security_tips/news_navbar.dart';
 import 'add_quotes_and_security_tips/quote_navbar.dart';
 import 'create_accounts/add_admin.dart';
-import 'create_accounts/add_judiciary.dart';
+import 'create_accounts/add_librarian.dart';
 import 'create_accounts/add_lawyer.dart';
 import 'create_accounts/add_police_station.dart';
+
+
 
 class AdminDashboard extends StatefulWidget {
    AdminDashboard({Key? key}) : super(key: key);
@@ -32,20 +34,59 @@ class _AdminDashboardState extends State<AdminDashboard> {
   final uSer = FirebaseAuth.instance.currentUser!;
   var controller = Get.put(UserDetailsController());
 
+
+  Map<String, int> roleCount = {
+    'Judiciary': 0,
+    'Lawyers': 0,
+    'Police': 0,
+    'Users': 0,
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    fetchRoleCounts();
+  }
+
+  Future<void> fetchRoleCounts() async {
+    try {
+      QuerySnapshot querySnapshot =
+      await FirebaseFirestore.instance.collection('Users').get();
+      List<DocumentSnapshot> documents = querySnapshot.docs;
+      Map<String, int> counts = {
+        'judiciary': 0,
+        'lawyer': 0,
+        'police': 0,
+        'user': 0,
+      };
+      documents.forEach((doc) {
+        String role = doc.get('Role'); // Assuming 'role' is the field in Firestore representing the user's role
+        if (counts.containsKey(role)) {
+          counts[role] = counts[role]! + 1;
+        }
+      });
+
+      setState(() {
+        roleCount = counts;
+      });
+    } catch (e) {
+      print('Error fetching role counts: $e');
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     var height = mediaQuery.size.height;
     var width = mediaQuery.size.width;
-    PieChart(
-      PieChartData(
-        // look into the source code given below
-      ),
-      swapAnimationDuration: Duration(milliseconds: 150), // Optional
-      swapAnimationCurve: Curves.linear, // Optional
-    );
+
+
 
     return Scaffold(
+
       appBar: AppBar(
 
         title: Text("Dashboard"),
@@ -249,7 +290,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       ),
                     ),
                     child: ElevatedButton(
-                      onPressed: ()=>Get.to(AddJudiciary()),
+                      onPressed: ()=>Get.to(AddLibrarian()),
                       style: ElevatedButton.styleFrom(
                         primary: Colors.black.withOpacity(0.5),
                         padding: EdgeInsets.symmetric(vertical: 20),
@@ -258,7 +299,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Icon(FontAwesomeIcons.houseFire),
-                          Text("Add Judiciary")
+                          Text("Add Librarian")
                         ],
                       ),
                     ),
@@ -272,47 +313,57 @@ class _AdminDashboardState extends State<AdminDashboard> {
               SizedBox(height: 10,),
               Container(
                 width: double.infinity,
-                height: 230,
+                height: 260,
                 decoration: BoxDecoration(
                   color: Color(0xFF040B25),
-                  borderRadius: BorderRadius.circular(6)
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: PieChart(
-                        PieChartData(
-                            centerSpaceRadius: 0,
-                            borderData: FlBorderData(show: false),
-                            sectionsSpace: 2,
-                            sections: [
-                              PieChartSectionData(
-                                  title: "Judiciary",
-                                  titleStyle: TextStyle(color: Colors.white),
-                                  value: 35,
-                                  color: Colors.red,
-                                  radius: 100),
-                              PieChartSectionData(
-                                  title: "Lawyers",
-                                  titleStyle: TextStyle(color: Colors.white),
-                                  value: 40,
-                                  color: Colors.blue,
-                                  radius: 100),
-                              PieChartSectionData(
-                                  title: "Police",
-                                  titleStyle: TextStyle(color: Colors.white),
-                                  value: 55,
-                                  color: Colors.green,
-                                  radius: 100),
-                              PieChartSectionData(
-                                  title: "Users",
-                                  titleStyle: TextStyle(color: Colors.white),
-                                  value: 70,
-                                  color: Colors.black,
-                                  radius: 100),
-                            ])
-                    )
+                  padding: const EdgeInsets.all(25),
+                  child: PieChart(
+                    PieChartData(
+                      centerSpaceRadius: 20, // Adjust the radius of the empty space in the middle
+                      sectionsSpace: 3,
+                      sections: [
+                        PieChartSectionData(
+                          title: "Judiciary\n${roleCount['judiciary']}",
+                          titleStyle: TextStyle(color: Colors.white),
+                          value: roleCount['judiciary']?.toDouble() ?? 0,
+                          color: Colors.red,
+                          radius: 100,
+                        ),
+                        PieChartSectionData(
+                          title: "Lawyer\n${roleCount['lawyer']}",
+                          titleStyle: TextStyle(color: Colors.white),
+                          value: roleCount['lawyer']?.toDouble() ?? 0,
+                          color: Colors.blue,
+                          radius: 100,
+                        ),
+                        PieChartSectionData(
+                          title: "Police\n${roleCount['police']}",
+                          titleStyle: TextStyle(color: Colors.white),
+                          value: roleCount['police']?.toDouble() ?? 0,
+                          color: Colors.green,
+                          radius: 100,
+                        ),
+                        PieChartSectionData(
+                          title: "User\n${roleCount['user']}",
+                          titleStyle: TextStyle(color: Colors.white),
+                          value: roleCount['user']?.toDouble() ?? 0,
+                          color: Colors.orange,
+                          radius: 100,
+                        ),
+                      ],
+                    ),
+                  )
+
                 ),
               ),
+
+
+
+
+
               SizedBox(height: 10),
 
               SizedBox(
@@ -387,7 +438,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         image: DecorationImage(
-                          image: AssetImage('assets/text.jpg'),
+                          image: AssetImage('assets/8.jpg'),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -416,4 +467,5 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 }
+
 
