@@ -22,7 +22,7 @@ class WelcomePage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image(
                   image: AssetImage(
@@ -43,82 +43,86 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: height * 0.2,),
-                Row(
+                Column(
                   children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Get.to(UserLoginScreen()),
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(),
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.red,
-                          side: BorderSide(color: Colors.black),
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Get.to(UserLoginScreen()),
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(),
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.red,
+                              side: BorderSide(color: Colors.black),
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                            ),
+                            child: Text(
+                              "User Account",
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          "User Account",
+                        const SizedBox(
+                          width: 10.0,
                         ),
-                      ),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: ()=> Get.to(LawyerLogin()),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(),
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.black,
+                              side: BorderSide(color: Colors.black),
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                            ),
+                            child: Text(
+                              "Lawyer Account",
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: ()=> Get.to(LawyerLogin()),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(),
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.black,
-                          side: BorderSide(color: Colors.black),
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                    SizedBox(height: 5.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: ()=> Get.to(PoliceLogin()),
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(),
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.blue,
+                              side: BorderSide(color: Colors.black),
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                            ),
+                            child: Text(
+                              "Law Enforcers Account",
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          "Lawyer Account",
+                        const SizedBox(
+                          width: 10.0,
                         ),
-                      ),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: ()=> Get.to(JudiciaryLogin()),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(),
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.green,
+                              side: BorderSide(color: Colors.black),
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                            ),
+                            child: Text(
+                              "E-Library",
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SizedBox(height: 5.0),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: ()=> Get.to(PoliceLogin()),
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(),
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                          side: BorderSide(color: Colors.black),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                        ),
-                        child: Text(
-                          "Law Enforcers Account",
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10.0,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: ()=> Get.to(JudiciaryLogin()),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(),
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.green,
-                          side: BorderSide(color: Colors.black),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                        ),
-                        child: Text(
-                          "Librarian Account",
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+
               ],
             ),
           ),

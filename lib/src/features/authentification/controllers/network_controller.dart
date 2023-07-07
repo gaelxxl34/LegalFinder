@@ -43,9 +43,11 @@ class _NetworkControllerState extends State<NetworkController> {
             children: [
               Icon(Icons.wifi_off, color: Colors.red, size: 18,),
               SizedBox(width: 8),
-              Text('No internet connection', style: TextStyle(color: Colors.red, fontSize: 15)),
+              Text('Check internet connection', style: TextStyle(color: Colors.red, fontSize: 15)),
               SizedBox(width: 8),
+
               Icon(Icons.signal_cellular_off, color: Colors.red, size: 18,),
+
             ],
           ),
           duration: Duration(days: 365), // Set a long duration to keep the SnackBar visible

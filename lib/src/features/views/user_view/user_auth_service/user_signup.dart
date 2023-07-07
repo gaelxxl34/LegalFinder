@@ -132,6 +132,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                                     fullname: controller.fullName.text.trim(),
                                     email: controller.email.text.trim(),
                                   );
+                                  user.generateRandomFCMToken();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(content: Text('Processing Data'), backgroundColor: Colors.black,),
                                   );

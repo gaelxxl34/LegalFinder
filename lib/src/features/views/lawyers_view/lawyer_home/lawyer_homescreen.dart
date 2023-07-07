@@ -110,7 +110,7 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/text.jpg'),
+                  image: AssetImage('assets/advices.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -137,7 +137,7 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/advices.jpg'),
+                  image: AssetImage('assets/text.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -148,7 +148,7 @@ class _LawyerHomePageState extends State<LawyerHomePage> {
                   padding: EdgeInsets.symmetric(vertical: 20),
                 ),
                 child: Text(
-                  'Recent Judgement',
+                  'E-Library',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

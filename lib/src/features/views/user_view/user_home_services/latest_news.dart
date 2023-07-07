@@ -44,6 +44,9 @@ class _NewsState extends State<News> {
   @override
   Widget build(BuildContext context) {
     NetworkListener networkController = Get.find();
+    var mediaQuery = MediaQuery.of(context);
+    var height = mediaQuery.size.height;
+    var width = mediaQuery.size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -73,7 +76,7 @@ class _NewsState extends State<News> {
                       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                         List<Quote_Model> userData = snapshot.data!;
                         return SizedBox(
-                          height: 160,
+                          height: height * 0.24,
                           child: ListView.builder(
                             itemCount: userData.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -82,10 +85,10 @@ class _NewsState extends State<News> {
                                 children: [
                                   Container(
                                     width: double.infinity,
-                                    height: 145,
+                                    height: height * 0.24,
                                     child: Image(
                                       image: NetworkImage(user.imageUrl),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fitWidth,
                                     ),
                                   ),
                                 ],
@@ -107,50 +110,75 @@ class _NewsState extends State<News> {
                   }
                 },
               ),
-
+              SizedBox(height: 5,),
               Text("Wanted", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
+              SizedBox(height: 5,),
               FutureBuilder<List<Wanted_Criminals_Model>>(
                 future: controller.getAllPoliceData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
                       List<Wanted_Criminals_Model> userData = snapshot.data!;
-                      return SizedBox(
-                        height: 250,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: userData.length,
-                          itemBuilder: (context, index) {
-                            Wanted_Criminals_Model user = userData[index];
-                            return Container(
-                              margin: EdgeInsets.only(top: 10, bottom: 10, left: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 160, // Replace with your desired image height
-                                    width: 335,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(user.img ?? ''),
-                                        // fit: BoxFit.cover,
-                                      ),
+                      return Container(
+                        color: Color(0xFF040D3B),
+                        child: SizedBox(
+                          height: height * 0.36,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: userData.length,
+                            itemBuilder: (context, index) {
+                              Wanted_Criminals_Model user = userData[index];
+                              return Container(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                width: width * 0.6,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                
+
+                                margin: EdgeInsets.only(top: 3, bottom: 3, left: 3),
+                                child: Center(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          height: height * 0.19, // Replace with your desired image height
+                                          width: width * 0.8,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(user.img ?? '' ),
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          "Name: ${user.name ?? ''}",
+                                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "Suspect: ${user.suspect ?? ''}",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Name: ${user.name ?? ''}",
-                                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    "Suspect: ${user.suspect ?? ''}",
-                                    style: TextStyle(fontSize: 13),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       );
                     } else if (snapshot.hasError) {
@@ -171,6 +199,7 @@ class _NewsState extends State<News> {
                 },
               ),
 
+              SizedBox(height: 15,),
               Text("Security Tips", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
 
               FutureBuilder<List<Security_Tips_Model>>(
@@ -190,43 +219,45 @@ class _NewsState extends State<News> {
                       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                         List<Security_Tips_Model> userData = snapshot.data!;
                         return SizedBox(
-                          height: 220,
+                          height: 240,
                           child: ListView.builder(
                             itemCount: userData.length,
                             itemBuilder: (BuildContext context, int index) {
                               Security_Tips_Model user = userData[index];
                               return SizedBox(
-                                height: 210,
+                                height: 220,
                                 child: ListView(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
                                   children: [
                                     SizedBox(
-                                      width: 360,
+                                      width: width * 1,
                                       height: 200,
                                       child: Padding(
                                         padding: const EdgeInsets.only(right: 10, top: 5),
                                         child: Container(
 
                                           //padding: EdgeInsets.all(10),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                width: double.infinity,
-                                                height: 145,
-                                                child: Image(
-                                                  image: NetworkImage(user.imageUrl),
-                                                  fit: BoxFit.cover,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  width: double.infinity,
+                                                  height: 155,
+                                                  child: Image(
+                                                    image: NetworkImage(user.imageUrl),
+                                                    fit: BoxFit.cover,
 
+                                                  ),
                                                 ),
-                                              ),
-                                              ListTile(
-                                                tileColor: Colors.black12,
-                                                title: Text(user.title),
-                                                subtitle: Text(user.details),
-                                              )
-                                            ],
+                                                ListTile(
+                                                  tileColor: Colors.black12,
+                                                  title: Text(user.title),
+                                                  subtitle: Text(user.details),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -262,7 +293,7 @@ class _NewsState extends State<News> {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 16),
-            Text('No internet connection'),
+            Text('Check internet connection'),
           ],
         ),
       ),

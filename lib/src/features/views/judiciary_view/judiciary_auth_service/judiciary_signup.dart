@@ -11,7 +11,7 @@ class JudiciarySignUp extends StatelessWidget {
     final Uri uri = Uri(
       scheme: 'mailto',
       path: _emailAddress,
-      queryParameters: {'subject': 'Location + Officer in charge'},
+      queryParameters: {'subject': 'Name and Phone Number'},
     );
 
     if (await canLaunch(uri.toString())) {
@@ -38,7 +38,7 @@ class JudiciarySignUp extends StatelessWidget {
                 width: double.infinity,
                 height: 250,
                 child: Image(
-                  image: AssetImage("assets/tribunal.png"),
+                  image: AssetImage("assets/books.png"),
                 )
             ),
             const SizedBox(

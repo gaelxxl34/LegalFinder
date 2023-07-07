@@ -21,7 +21,7 @@ class _OurJudiciaryAccountsState extends State<OurJudiciaryAccounts> {
     var controller = Get.put(UserDetailsController());
     return Scaffold(
       appBar: AppBar(
-        title: Text("Judiciary Accounts"),
+        title: Text("E-Library Account"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

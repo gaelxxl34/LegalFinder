@@ -107,7 +107,7 @@ class _JudiciaryHomePageState extends State<JudiciaryHomePage> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/text.jpg'),
+                  image: AssetImage('assets/advices.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -134,7 +134,7 @@ class _JudiciaryHomePageState extends State<JudiciaryHomePage> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/advices.jpg'),
+                  image: AssetImage('assets/text.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -145,7 +145,7 @@ class _JudiciaryHomePageState extends State<JudiciaryHomePage> {
                   padding: EdgeInsets.symmetric(vertical: 20),
                 ),
                 child: Text(
-                  'Upload Judgement',
+                  'Upload E-Book',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

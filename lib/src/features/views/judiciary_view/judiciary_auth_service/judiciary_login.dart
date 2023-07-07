@@ -45,7 +45,7 @@ class _JudiciaryLoginState extends State<JudiciaryLogin> {
                     child: Column(
                       children: [
                         Container(
-                          child: Image(image: AssetImage("assets/tribunal.png"), width: width * 1, height: height * 0.3,),
+                          child: Image(image: AssetImage("assets/books.png"), width: width * 1, height: height * 0.3,),
                         ),
                         LoginWidget(),
                         TextButton(

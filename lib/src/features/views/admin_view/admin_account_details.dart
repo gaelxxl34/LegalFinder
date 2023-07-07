@@ -30,19 +30,19 @@ class _AccountsDetailsState extends State<AccountsDetails> {
             const SizedBox(height: 16.0),
             _buildLawyerCategory(
               context,
-              'Lawyers',
+              'Lawyer',
                   () => Get.to(()=> OurLawyers()),
             ),
             const SizedBox(height: 16.0),
             _buildLawyerCategory(
               context,
-              'Law Enforcers',
+              'Law Enforcer',
                   ()=> Get.to(()=> OurPoliceStations())
             ),
             const SizedBox(height: 16.0),
             _buildLawyerCategory(
               context,
-              'Judiciary',
+              'E-Library',
                   ()=> Get.to(()=> OurJudiciaryAccounts())
             ),
 
@@ -50,7 +50,7 @@ class _AccountsDetailsState extends State<AccountsDetails> {
             const SizedBox(height: 16.0),
             _buildLawyerCategory(
               context,
-              'Librarian',
+              'Admin',
                   ()=> Get.to(()=> OurAdmin()),
             ),
 

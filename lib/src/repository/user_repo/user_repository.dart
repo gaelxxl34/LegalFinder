@@ -1,11 +1,13 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
+import '../../features/authentification/controllers/notification_controller.dart';
 import '../../features/authentification/models/other_models.dart';
 import '../../features/authentification/models/user_model.dart';
 
@@ -55,6 +57,7 @@ UserRepository extends GetxController {
     final userData = snapshot.docs.map((e) => Admin_Lawyer_Model.fromSnapshot(e)).single;
     return userData;
   }
+
   Future<OthersModel?> getOthersDetails(String Email) async {
     final snapshot = await _db.collection('Users').where("Email", isEqualTo: Email).get();
     final userData = snapshot.docs.map((e) => OthersModel.fromSnapshot(e)).single;
@@ -66,11 +69,23 @@ UserRepository extends GetxController {
     final userData = snapshot.docs.map((e) => Wanted_Criminals_Model.fromSnapshot(e)).toList();
     return userData;
   }
+
   Future<List<Document_Model>> allDocs() async {
     final snapshot = await _db.collection('Judiciary').get();
     final userData = snapshot.docs.map((e) => Document_Model.fromSnapshot(e)).toList();
     return userData;
   }
+
+  Future<List<Document_Model>> allDocx(String email) async {
+    final snapshot = await _db
+        .collection('Judiciary')
+        .where('Email', isEqualTo: email) // Replace 'uid' with the actual field name representing the user identifier
+        .get();
+
+    final userData = snapshot.docs.map((e) => Document_Model.fromSnapshot(e)).toList();
+    return userData;
+  }
+
 
   Future<List<Admin_Lawyer_Model>> allLawyer() async {
     final snapshot = await _db
@@ -168,56 +183,86 @@ UserRepository extends GetxController {
   }
 
 
-  createForPolice(Wanted_Criminals_Model user) async {
+
+  Future<void> createForPolice(Wanted_Criminals_Model user) async {
     CollectionReference<Map<String, dynamic>> users = _db.collection("Police");
 
     // Generate the UID automatically using the doc() method
     DocumentReference<Map<String, dynamic>> docRef = users.doc();
     user.uid = docRef.id;
 
-    await docRef.set(user.toJson()).whenComplete(
-          () => Get.snackbar(
-          "Success",
-          "Data has been added",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green.withOpacity(0.1),
-          colorText: Colors.green),
-    )
-        .catchError((error, stackTrace) {
+    await docRef.set(user.toJson()).whenComplete(() async {
+      // Display success snackbar
       Get.snackbar(
-          "Error",
-          "Something went wrong. Try again",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red.withOpacity(0.1),
-          colorText: Colors.red);
-      //print(error.toString());
+        "Success",
+        "Data has been added",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withOpacity(0.1),
+        colorText: Colors.green,
+      );
+
+
+
+
+
+    }).catchError((error, stackTrace) {
+      // Handle error if Firestore update fails
+      Get.snackbar(
+        "Error",
+        "Something went wrong. Try again",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
     });
   }
 
-  createDocument(Document_Model user) async{
+
+
+
+
+
+
+
+
+
+  createDocument(Document_Model user) async {
     CollectionReference<Map<String, dynamic>> users = _db.collection("Judiciary");
+
+    // Get the email of the authenticated user
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      // User is not authenticated, handle accordingly
+      return Get.snackbar("Error", "Something is wrong try again", colorText: Colors.red);
+    }
+    String email = currentUser.email ?? '';
+
+    // Set the email in the user object
+    user.email = email;
+    print(email);
 
     // Generate the UID automatically using the doc() method
     DocumentReference<Map<String, dynamic>> docRef = users.doc();
 
-    await docRef.set(user.toJson()).whenComplete(
-          () => Get.snackbar(
-          "Success",
-          "Document Uploaded",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green.withOpacity(0.1),
-          colorText: Colors.green),
-    )
-        .catchError((error, stackTrace) {
+    await docRef.set(user.toJson()).whenComplete(() {
       Get.snackbar(
-          "Error",
-          "Something went wrong. Try again",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red.withOpacity(0.1),
-          colorText: Colors.red);
-      //print(error.toString());
+        "Success",
+        "Document Uploaded",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withOpacity(0.1),
+        colorText: Colors.green,
+      );
+    }).catchError((error, stackTrace) {
+      Get.snackbar(
+        "Error",
+        "Something went wrong. Try again",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withOpacity(0.1),
+        colorText: Colors.red,
+      );
     });
   }
+
 
 
   createData(LegalCase_Model user) async{

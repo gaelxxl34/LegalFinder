@@ -299,7 +299,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Icon(FontAwesomeIcons.houseFire),
-                          Text("Add Librarian")
+                          Text("Add E-Library")
                         ],
                       ),
                     ),
@@ -403,7 +403,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         image: DecorationImage(
-                          image: AssetImage('assets/11.jpg'),
+                          image: AssetImage('assets/library.jpg'),
                           fit: BoxFit.cover,
                         ),
                       ),

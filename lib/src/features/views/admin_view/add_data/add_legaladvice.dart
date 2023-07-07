@@ -25,7 +25,7 @@ class _AddLegalAdviceState extends State<AddLegalAdvice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Legal Advices"),
+        title: Text("Add Legal Advice"),
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),

@@ -24,7 +24,7 @@ class _OurLawyersState extends State<OurLawyers> {
     var controller = Get.put(UserDetailsController());
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lawyers"),
+        title: Text("Lawyer"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

@@ -90,7 +90,6 @@ class _WantedCriminalState extends State<WantedCriminal> {
                       SizedBox(height: 10,),
                       Container(
                         width: 300,
-                        height: 50,
                         child: TextFormField(
                           controller: controller.name,
                           validator: (value) {
@@ -103,6 +102,7 @@ class _WantedCriminalState extends State<WantedCriminal> {
                             return null; // Return null if the email is valid
                           },
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(7),
                             prefixIcon: Icon(Icons.person),
                             prefixIconColor: Colors.black,
                             hintText: 'Name',
@@ -122,20 +122,27 @@ class _WantedCriminalState extends State<WantedCriminal> {
                       ),
                       SizedBox(height: 10),
                       Container(
-                        height: 50,
                         width: 300,
                         child: TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           controller: controller.suspect,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please Enter Suspected Crime';
                             }
                             if (value.length < 6) {
-                              return 'The Suspected Crime must be at least 6 characters long';
+                              return 'The Suspected crime must be at least 6 characters long ';
+                            }
+                            if (value.length > 45){
+                              return 'The Suspected crime can not be more than 30 characters long ';
                             }
                             return null; // Return null if the email is valid
+
                           },
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(7),
+
                             prefixIcon: Icon(Icons.not_interested_outlined),
                             prefixIconColor: Colors.red,
                             hintText: 'Suspected Crime',

@@ -1,11 +1,13 @@
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../constants/search_for_lawyer.dart';
 import '../../../authentification/controllers/network_listener.dart';
 import '../../../authentification/controllers/user+details_controller.dart';
 import '../../../authentification/models/user_model.dart';
@@ -19,11 +21,15 @@ class GetLegalHelpDashboard extends StatefulWidget {
 
 class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
 
+  var controller = Get.put(UserDetailsController());
+  late Future<List<Admin_Lawyer_Model>> _documentsFuture;
+
   @override
   void initState()  {
     super.initState();
     NetworkListener networkController = Get.put(NetworkListener());
     networkController.addListener(_onNetworkChange);
+    _documentsFuture = controller.getLawyers();
   }
 
   void _onNetworkChange() {
@@ -39,11 +45,30 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
     super.dispose();
   }
 
+  Future<List<Admin_Lawyer_Model>> fetchDocuments() async {
+    // Implement the logic to fetch documents from Firebase
+    // and return the list of documents
+    // For example:
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Users').get();
+    List<Admin_Lawyer_Model> documents = querySnapshot.docs.map((doc) {
+      // Create Document_Model objects from Firestore document data
+      return Admin_Lawyer_Model(
+        image: doc.get('Image'),
+        fullname: doc.get('Fullname'),
+        field: doc.get('Field'), email: 'Email', role: 'Role', phone: 'Phone',
+      );
+    }).toList();
+
+    return documents;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(UserDetailsController());
-    NetworkListener networkController = Get.find();
 
+    NetworkListener networkController = Get.find();
+    var mediaQuery = MediaQuery.of(context);
+    var height = mediaQuery.size.height;
+    var width = mediaQuery.size.width;
 
     return Scaffold(
       appBar: AppBar(
@@ -53,6 +78,18 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
           icon: Icon(CupertinoIcons.back),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () async {
+              List<Admin_Lawyer_Model> documents = await _documentsFuture;
+              showSearch(
+                context: context,
+                delegate: AdvocateSearchDelegate(documents),
+              );
+            },
+          ),
+        ],
       ),
       body: networkController.hasInternet
           ? SingleChildScrollView(
@@ -66,7 +103,7 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
                   if (snapshot.hasData) {
                     List<Admin_Lawyer_Model> userData = snapshot.data!;
                     return SizedBox(
-                      height: 550,
+                      height: height * 0.88,
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -95,19 +132,32 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
                                         foregroundImage: NetworkImage(user.image),
                                     ),
                                     title: Text(user.fullname),
-                                    subtitle: Text("Expertise: ${user.field}"),
+                                    subtitle: Text("${user.field} Lawyer"),
                                     trailing: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      //mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red
-                                          ),
-                                          onPressed: (){
-                                            launch('tel:' + user.phone);
-                                          },
-                                          child: Text("Call"),
-                                        ),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            IconButton(
+                                              icon: Icon(Icons.phone),
+                                              color: Colors.red,
+                                              onPressed: (){
+                                                launch('tel:' + user.phone);
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: Icon(Icons.message),
+                                              color: Colors.blue,
+                                              onPressed: (){
+                                                launch('sms:' + user.phone);
+                                              },
+                                            ),
 
+
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -144,7 +194,7 @@ class _GetLegalHelpDashboardState extends State<GetLegalHelpDashboard> {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 16),
-            Text('No internet connection'),
+            Text('Check internet connection'),
           ],
         ),
       ),

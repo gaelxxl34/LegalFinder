@@ -13,7 +13,6 @@ class HelpPage extends StatefulWidget {
 class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
-    String number = "00000000000";
 
     final String _emailAddress = 'bryanttechspec@gmail.com';
 
@@ -56,13 +55,6 @@ class _HelpPageState extends State<HelpPage> {
                   leading: Icon(Icons.sync_problem_rounded, color: Colors.red,),
                   title: Text("Report a Problem"),
                   onTap: () {feedback_or_problem(context);}
-              ),
-              ListTile(
-                  leading: Icon(FontAwesomeIcons.phone, color: Colors.black,),
-                  title: Text("Call customer service"),
-                  onTap: () {
-                    launch('tel:' + number);
-                  }
               ),
             ],
           ),

@@ -32,6 +32,16 @@ class UserDetailsController extends GetxController{
   Future<List<Document_Model>> getDocuments() async {
     return _userRepo.allDocs();
   }
+  Future<List<Document_Model>> getDocumentes() async {
+    final Email = _authRepo.firebaseUser.value?.email;
+    if(Email != null){
+      return _userRepo.allDocx(Email);
+    } else {
+      Get.snackbar("Error", "Something is wrong try again", colorText: Colors.red);
+    }
+    // Add a default return statement
+    return []; // Return an empty list if no email is available
+  }
 
   Future<List<Admin_Lawyer_Model>> getLawyers() async {
     return _userRepo.allLawyer();

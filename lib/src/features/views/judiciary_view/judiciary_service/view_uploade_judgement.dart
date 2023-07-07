@@ -54,7 +54,7 @@ class _ViewUploadedJudgementState extends State<ViewUploadedJudgement> {
           child: Column(
             children: [
               FutureBuilder<List<Document_Model>>(
-                future: controller.getDocuments(),
+                future: controller.getDocumentes(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
@@ -156,3 +156,4 @@ class _ViewUploadedJudgementState extends State<ViewUploadedJudgement> {
     );
   }
 }
+

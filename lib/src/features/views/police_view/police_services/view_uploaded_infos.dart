@@ -40,6 +40,12 @@ class _PoliceUploadedInfoState extends State<PoliceUploadedInfo> {
   Widget build(BuildContext context) {
     void refreshPage()=> setState(() {});
     var controller = Get.put(UserDetailsController());
+
+    var mediaQuery = MediaQuery.of(context);
+    var height = mediaQuery.size.height;
+    var width = mediaQuery.size.width;
+
+
     NetworkListener networkController = Get.find();
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +66,7 @@ class _PoliceUploadedInfoState extends State<PoliceUploadedInfo> {
                     if (snapshot.hasData) {
                       List<Wanted_Criminals_Model> userData = snapshot.data!;
                       return SizedBox(
-                        height: 550,
+                        height: height * 0.85,
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -74,7 +80,7 @@ class _PoliceUploadedInfoState extends State<PoliceUploadedInfo> {
                                 children: [
                                   Container(
                                     height: 200, // Replace with your desired image height
-                                    width: 300,
+                                    width: double.infinity,
                                     decoration: BoxDecoration(
                                       color: Colors.white54,
                                       image: DecorationImage(
@@ -145,7 +151,7 @@ class _PoliceUploadedInfoState extends State<PoliceUploadedInfo> {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 16),
-            Text('No internet connection'),
+            Text('Check internet connection'),
           ],
         ),
       ),

@@ -165,7 +165,7 @@ class _UserHomePageState extends State<UserHomePage> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/11.jpg'),
+                  image: AssetImage('assets/advices.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -192,7 +192,7 @@ class _UserHomePageState extends State<UserHomePage> {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/advices.jpg'),
+                  image: AssetImage('assets/library.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),

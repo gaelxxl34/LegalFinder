@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const MaterialColor primary = MaterialColor(_primaryPrimaryValue, <int, Color>{
   50: Color(0xFF000000),
   100: Color(0xFF000000),
-  200: Color(0xFF000000),
+  200: Color(0xFF050E34),
   300: Color(0xFF000000),
   400: Color(0xFF000000),
   500: Color(0xFF000000), // Set primary color to black

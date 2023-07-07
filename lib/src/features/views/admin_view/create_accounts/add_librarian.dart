@@ -44,7 +44,7 @@ class _AddLibrarianState extends State<AddLibrarian> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.cabin_outlined, size: 85, color: Colors.blue,),
-                            Text("Judiciary")
+                            Text("E-Library")
                           ],
                         ),
                       ),

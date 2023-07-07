@@ -31,7 +31,6 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                   keyboardType: TextInputType.emailAddress,
                   maxLines: null,
-                  textInputAction: TextInputAction.newline,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter an email address';

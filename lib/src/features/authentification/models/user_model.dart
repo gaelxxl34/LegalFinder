@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,20 +13,23 @@ class UserModel {
   final String fullname;
   final String email;
   String role;
+  String fcmToken;
 
   UserModel({
     this.uid = '',
     required this.fullname,
     required this.email,
     this.role = 'user',
+    this.fcmToken = '',
   });
 
   toJson() {
     return {
-      "uid" : uid,
+      "uid": uid,
       "Fullname": fullname,
       "Email": email,
       "Role": role,
+      "fcmToken": fcmToken,
     };
   }
 
@@ -35,7 +40,22 @@ class UserModel {
       fullname: data['Fullname'],
       email: data['Email'],
       role: data['Role'] ?? 'user',
+      fcmToken: data['fcmToken'] ?? '',
     );
+  }
+
+  void generateRandomFCMToken() {
+    final random = Random();
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const tokenLength = 20;
+
+    String token = '';
+
+    for (var i = 0; i < tokenLength; i++) {
+      token += chars[random.nextInt(chars.length)];
+    }
+
+    fcmToken = token;
   }
 }
 
@@ -198,6 +218,7 @@ class Wanted_Criminals_Model {
 class Document_Model {
   final String document;
   final String description;
+  String email;
   final String img;
   String uid;
 
@@ -205,7 +226,8 @@ class Document_Model {
     this.img = '',
     required this.description,
     required this.document,
-    this.uid = ''
+    this.uid = '',
+    this.email = ''
   });
 
   Future<void> updateData(String uid, Document_Model user) async {
@@ -261,6 +283,7 @@ class Document_Model {
       "Description": description,
       "Image": img,
       "uid": uid,
+      "Email": email,
     };
   }
 
@@ -274,6 +297,7 @@ class Document_Model {
       description: data['Description'] ?? '',
       img: data['Image'] ?? '',
       uid: snapshot.id,
+      email: data['Email'],
     );
   }
 }

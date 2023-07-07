@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -20,7 +21,7 @@ class _LawLibraryState extends State<LawLibrary> {
   var controller = Get.put(UserDetailsController());
 
   late Future<List<Document_Model>> _documentsFuture;
-  List<Document_Model> _documents = [];
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +65,10 @@ class _LawLibraryState extends State<LawLibrary> {
   Widget build(BuildContext context) {
     NetworkListener networkController = Get.find();
 
+    var mediaQuery = MediaQuery.of(context);
+    var height = mediaQuery.size.height;
+    var width = mediaQuery.size.width;
+
     return Scaffold(
 
 
@@ -86,7 +91,7 @@ class _LawLibraryState extends State<LawLibrary> {
       body: networkController.hasInternet
           ? SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: EdgeInsets.symmetric(vertical: 5),
 
           child: Column(
             children: [
@@ -97,7 +102,7 @@ class _LawLibraryState extends State<LawLibrary> {
                     if (snapshot.hasData) {
                       List<Document_Model> userData = snapshot.data!;
                       return SizedBox(
-                        height: 550,
+                        height: height * 0.88,
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -126,18 +131,27 @@ class _LawLibraryState extends State<LawLibrary> {
                                         ],
                                       ),
                                       child: ListTile(
+                                        
                                         tileColor: Colors.blue,
                                         leading: Container(
-                                          height: 70, // Replace with your desired image height
+                                          height: 100, // Replace with your desired image height
                                           width: 70,
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
-                                                  image: NetworkImage(user.img)
+                                                fit: BoxFit.cover,
+                                                  image: NetworkImage(user.img),
                                               )
                                           ),
                                         ),
                                         title: Text(user.description),
                                         subtitle: Text("Click to open"),
+                                        trailing: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Icon(CupertinoIcons.book_solid, color: Colors.blue,),
+                                            Icon(Icons.star_outlined, color: Colors.green,)
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

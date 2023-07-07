@@ -83,7 +83,7 @@ class _UploadJudgementState extends State<UploadJudgement> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Upload Judgement'),
+        title: Text('Upload E-Book'),
         centerTitle: true,
       ),
       body: Center(
@@ -157,25 +157,29 @@ class _UploadJudgementState extends State<UploadJudgement> {
                     ],
                   ),
 
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        getFileIcon(_file.path),
-                        size: 60,
-                        color: Colors.grey,
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            getFileIcon(_file.path),
+                            size: 60,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            _file.path.split('/').last,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            '${(_file.lengthSync() / 1024).toStringAsFixed(2)} KB',
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        _file.path.split('/').last,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        '${(_file.lengthSync() / 1024).toStringAsFixed(2)} KB',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               SizedBox(height: 5),
@@ -220,7 +224,9 @@ class _UploadJudgementState extends State<UploadJudgement> {
                 width: 300,
                 child: ElevatedButton(
                   onPressed: () async {
+
                     if (_formKey.currentState!.validate()) {
+
                       if (_filePath != '' && selectedImagePath != '') {
                         // Upload image to Firebase Storage
                         String imageUrl =
@@ -231,11 +237,11 @@ class _UploadJudgementState extends State<UploadJudgement> {
                             description: controller.description.text.trim(),
                             document: doc,
                             img: imageUrl);
-
-                        SignUpController.instance.addDocument(user);
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Processing Data')),
+                          const SnackBar(content: Text('Processing Data'), backgroundColor: Colors.black,),
                         );
+                        SignUpController.instance.addDocument(user);
+
                       } else {
                         // Show an error message if no image is selected
                         ScaffoldMessenger.of(context).showSnackBar(

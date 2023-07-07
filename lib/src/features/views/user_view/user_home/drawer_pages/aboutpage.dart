@@ -13,13 +13,14 @@ class AboutPage extends StatelessWidget {
     final Uri website = Uri.parse("https://bryanttechspec.com/legaltech");
     final Uri facebook = Uri.parse("https://www.facebook.com/BryantTechSpec/?mibextid=ZbWKwL");
     final Uri insta = Uri.parse("https://instagram.com/bryanttechspectrum?igshid=ZGUzMzM3NWJiOQ==");
-    final Uri twitter = Uri.parse("https://bryanttechspec.com/legaltech");
+    final Uri twitter = Uri.parse("https://twitter.com/BrayantTech?t=hzsMxRqBA6GIu37B9_NC1w&s=09");
 
 
 
 
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("About"),
         centerTitle: true,
@@ -27,12 +28,12 @@ class AboutPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
               Container(
                 padding: EdgeInsets.all(5),
-                width: 160,
-                height: 80,
+                width: 200,
+                height: 170,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage("assets/logo.png"),
@@ -180,8 +181,8 @@ class AboutPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () async{
-                          if (!await launchUrl(website)) {
-                        throw Exception('Could not launch $website');
+                          if (!await launchUrl(twitter)) {
+                        throw Exception('Could not launch $twitter');
                         }
 
                       },
@@ -208,7 +209,7 @@ class AboutPage extends StatelessWidget {
                               width: double.infinity,
                               height: 100,
 
-                              child: Icon(FontAwesomeIcons.twitter, color: Colors.white, size: 60,),
+                              child: Icon(FontAwesomeIcons.twitter, color: Colors.blueAccent, size: 60,),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 color: Colors.black,

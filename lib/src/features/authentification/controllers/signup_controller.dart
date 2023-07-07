@@ -104,27 +104,32 @@ class SignUpController extends GetxController {
     // Switch on the role and navigate to the corresponding screen.
     switch (userRole) {
       case 'user':
+        Get.snackbar("Logging", "Successfully", colorText: Colors.green);
         Get.to(() => UserHomePage());
         break;
       case 'admin':
+        Get.snackbar("Logging", "Successfully", colorText: Colors.green);
         Get.to(() => AdminNavbar());
         break;
       case 'lawyer':
+        Get.snackbar("Logging", "Successfully", colorText: Colors.green);
         Get.to(() => LawyerHomePage());
         break;
       case 'police':
+        Get.snackbar("Logging", "Successfully", colorText: Colors.green);
         Get.to(() => PoliceHomePage());
         break;
       case 'judiciary':
+        Get.snackbar("Logging", "Successfully", colorText: Colors.green);
         Get.to(() => JudiciaryHomePage());
         break;
       default:
         await FirebaseAuth.instance.signOut();
-        Get.snackbar("Error", "You don't have access to this app", colorText: Colors.red);
+        Get.snackbar("Error", "You don't have access to this app contact admin", colorText: Colors.red);
         Get.to(() => WelcomePage());
         break;
     }
-    Get.snackbar("Logging", "Successfully", colorText: Colors.green);
+
   }
 
 
@@ -138,7 +143,7 @@ Future<void> addWantedCriminals(Wanted_Criminals_Model user) async {
 
 Future<void> addDocument(Document_Model user) async{
  await UserRepo.createDocument(user);
-  Get.to(()=> ViewUploadedJudgement());
+
 }
 
   Future<void> addData(LegalCase_Model user) async{
