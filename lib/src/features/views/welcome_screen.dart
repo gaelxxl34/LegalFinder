@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:legalfinder/src/features/views/police_view/police_auth_service/police_login.dart';
 import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_login.dart';
 
+import '../../constants/text.dart';
 import 'judiciary_view/judiciary_auth_service/judiciary_login.dart';
 import 'lawyers_view/lawyer_auth_service/lawyer_login.dart';
 
@@ -33,12 +34,12 @@ class WelcomePage extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "LegalFinder",
+                      appName,
                       style:
                       TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "The app that helps you find justice at your fingertips",
+                      appWelcome,
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -58,7 +59,7 @@ class WelcomePage extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 15),
                             ),
                             child: Text(
-                              "User Account",
+                              account1,
                             ),
                           ),
                         ),
@@ -76,7 +77,7 @@ class WelcomePage extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 15),
                             ),
                             child: Text(
-                              "Lawyer Account",
+                              account2,
                             ),
                           ),
                         ),
@@ -96,7 +97,7 @@ class WelcomePage extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 15),
                             ),
                             child: Text(
-                              "Law Enforcers Account",
+                              account3,
                             ),
                           ),
                         ),
@@ -114,7 +115,7 @@ class WelcomePage extends StatelessWidget {
                               padding: EdgeInsets.symmetric(vertical: 15),
                             ),
                             child: Text(
-                              "E-Library",
+                              account4,
                             ),
                           ),
                         ),

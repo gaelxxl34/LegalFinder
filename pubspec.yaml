@@ -48,8 +48,9 @@ dependencies:
   connectivity: ^3.0.6
   connectivity_plus: ^3.0.6
   internet_connection_checker: ^1.0.0+1
-#  firebase_messaging: ^14.6.3
   flutter_local_notifications: ^14.1.1
+  translator: ^0.1.2
+  html_unescape: ^2.0.0
 
 
 

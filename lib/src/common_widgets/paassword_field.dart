@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:legalfinder/src/constants/text.dart';
 
 import '../features/authentification/controllers/signup_controller.dart';
 
@@ -23,10 +24,10 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           obscureText: _obscureText,
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter a password';
+              return passError1;
             }
             if (value.length < 6) {
-              return 'Password must be at least 6 characters long';
+              return passError2;
             }
             // Add any additional password validation logic here, such as requiring specific characters or patterns
 
@@ -34,7 +35,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           },
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
-          hintText: 'Password',
+          hintText: password,
               suffixIcon: GestureDetector(
                 onTap: () {
                   setState(() {

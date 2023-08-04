@@ -69,7 +69,7 @@ class AuthentificationRepository extends GetxController {
 
         switch (userRole) {
           case 'user':
-            Get.to(() => UserHomePage());
+            user == null ? Get.offAll(() => const WelcomePage()) : user.emailVerified ? Get.offAll(() => UserHomePage()): Get.offAll(() => EmailVerification());
             break;
           case 'lawyer':
             Get.to(() => LawyerHomePage());

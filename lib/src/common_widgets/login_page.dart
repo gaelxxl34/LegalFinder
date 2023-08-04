@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:legalfinder/src/common_widgets/reset_password.dart';
 
+import '../constants/text.dart';
 import '../features/authentification/controllers/signup_controller.dart';
 import 'paassword_field.dart';
 
@@ -43,7 +44,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   controller: controller.email,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
-                    hintText: 'Email',
+                    hintText: email,
                     suffixIcon: Icon(CupertinoIcons.mail, color: Colors.black),
                     hintStyle: TextStyle(color: Colors.black),
                     enabledBorder: OutlineInputBorder(
@@ -68,7 +69,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                   onPressed: () {
                     ForgetPasswordScreen.buildShowModalBottomSheet(context);
                   },
-                  child: Text("Forget Password", style: TextStyle(color: Colors.blue),),
+                  child: Text(forgetPass, style: TextStyle(color: Colors.blue),),
                 ),
               ),
               SizedBox(
@@ -92,7 +93,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
                   },
                   child: Text(
-                    "Login".toUpperCase(),
+                    login.toUpperCase(),
                   ),
                 ),
               ),

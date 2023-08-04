@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:legalfinder/src/constants/text.dart';
 import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_login.dart';
 
 import '../../../../common_widgets/paassword_field.dart';
@@ -50,17 +51,17 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                           child: TextFormField(
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please Enter your Fullname';
+                                return nameError1;
                               }
                               if (value.length < 6) {
-                                return 'Your Fullname must be at least 8 characters long';
+                                return nameError2;
                               }
                               return null; // Return null if the email is valid
                             },
                             controller: controller.fullName,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              hintText: 'Full Name',
+                              hintText: fullN,
                               suffixIcon: Icon(CupertinoIcons.textbox, color: Colors.black),
                               hintStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
@@ -81,20 +82,21 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         Container(
                           child: TextFormField(
 
+                            keyboardType: TextInputType.emailAddress,
+                            maxLines: null,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter an email address';
+                                return emailError1;
                               }
                               if (!RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$').hasMatch(value)) {
-                                return 'Please enter a valid email address';
+                                return emailError2;
                               }
                               return null; // Return null if the email is valid
                             },
                             controller: controller.email,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            textInputAction: TextInputAction.newline,                            decoration: InputDecoration(
-                              hintText: 'Email',
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
+                              hintText: email,
                               suffixIcon: Icon(CupertinoIcons.mail, color: Colors.black),
                               hintStyle: TextStyle(color: Colors.black),
                               enabledBorder: OutlineInputBorder(
@@ -107,7 +109,6 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                               ),
                               filled: true,
                               fillColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10),
                             ),
                           ),
                         ),
@@ -142,7 +143,7 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
 
                               },
                               child: Text(
-                                "Sign Up".toUpperCase(),
+                                signUp.toUpperCase(),
                               ),
                             )),
                         const SizedBox(
@@ -151,11 +152,11 @@ class _UserSignUpScreenState extends State<UserSignUpScreen> {
                         TextButton(
                           onPressed: () => Get.to(UserLoginScreen()),
                           child: Text.rich(TextSpan(
-                            text: "Already have an Account ",
+                            text: haveAlready,
                             style: TextStyle(fontSize: 15, color: Colors.black),
                             children: [
                               TextSpan(
-                                text: "Login".toUpperCase(),
+                                text: login.toUpperCase(),
                                 style: TextStyle(color: Colors.red),
                               )
                             ],

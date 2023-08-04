@@ -297,7 +297,7 @@ class Document_Model {
       description: data['Description'] ?? '',
       img: data['Image'] ?? '',
       uid: snapshot.id,
-      email: data['Email'],
+      email: data['Email'] ?? '',
     );
   }
 }

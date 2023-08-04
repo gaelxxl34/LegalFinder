@@ -8,6 +8,7 @@ import 'package:legalfinder/src/features/views/user_view/user_auth_service/user_
 import '../../../../common_widgets/login_page.dart';
 import '../../../../common_widgets/paassword_field.dart';
 import '../../../../common_widgets/reset_password.dart';
+import '../../../../constants/text.dart';
 import '../../../authentification/controllers/signup_controller.dart';
 
 class UserLoginScreen extends StatefulWidget {
@@ -49,12 +50,12 @@ class _UserLoginScreenState extends State<UserLoginScreen> {
                           onPressed: () => Get.to(UserSignUpScreen()),
                           child: Text.rich(
                             TextSpan(
-                              text: "Don't have an Account ",
+                              text: dontHave,
                               style:
                               TextStyle(fontSize: 14, color: Colors.black),
                               children: [
                                 TextSpan(
-                                  text: "Sign Up".toUpperCase(),
+                                  text: signUp.toUpperCase(),
                                   style: TextStyle(color: Colors.red),
                                 ),
                               ],
