@@ -58,6 +58,7 @@ class _UploadJudgementState extends State<UploadJudgement> {
     'docx': Icons.description,
     'xls': Icons.table_chart,
     'xlsx': Icons.table_chart,
+    'jpg': Icons.picture_in_picture
     // Add more file extensions and icons as needed
   };
 

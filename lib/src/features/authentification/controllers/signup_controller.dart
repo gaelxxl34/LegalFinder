@@ -47,6 +47,9 @@ class SignUpController extends GetxController {
     AuthentificationRepository.instance
         .createUserWithEmailAndPassword(email, password, user);
   }
+
+
+
   void registerOthers(String email, String password,  OthersModel user) {
     AuthentificationRepository.instance
         .createUserWithEmailAndPassword_For_Others(email, password, user);

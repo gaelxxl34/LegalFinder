@@ -311,6 +311,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
               SizedBox(height: 10),
               Center(child: Text("Statistics", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),)),
               SizedBox(height: 10,),
+
               Container(
                 width: double.infinity,
                 height: 260,
